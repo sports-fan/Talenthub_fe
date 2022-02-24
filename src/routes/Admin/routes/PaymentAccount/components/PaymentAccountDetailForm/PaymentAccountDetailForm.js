@@ -39,6 +39,18 @@ const PaymentAccountDetailForm = ({ handleSubmit, values, location, history, me:
       />
       <Field component={FormInput} type="text" htmlId="address" name="address" label="Address" />
       <Field component={FormInput} type="text" htmlId="displayName" name="display_name" label="Display Name" />
+      <Field
+        component={FormInput}
+        type="text"
+        htmlId="description"
+        name="description"
+        label="Description"
+        extra={{
+          multiline: true,
+          rows: 5,
+          placeholder: 'Extra Information'
+        }}
+      />
 
       <div className={classes.formButtonWrapper}>
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>

@@ -37,7 +37,8 @@ const PaymentAccountEdit = ({
     () => ({
       platform: paymentAccountDetail?.platform || '',
       address: paymentAccountDetail?.address || '',
-      display_name: paymentAccountDetail?.display_name || ''
+      display_name: paymentAccountDetail?.display_name || '',
+      description: paymentAccountDetail?.description || ''
     }),
     [paymentAccountDetail]
   )
