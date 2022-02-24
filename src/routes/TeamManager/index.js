@@ -17,6 +17,7 @@ const MyLogs = lazy(() => import('routes/Shared/MyLogs'))
 const Settings = lazy(() => import('routes/Shared/Settings'))
 const FinancialReports = lazy(() => import('./routes/FinancialReports'))
 const Spinner = lazy(() => import('../../components/Spinner'))
+const PaymentAccount = lazy(() => import('routes/Shared/PaymentAccount'))
 
 const TeamManager = ({ match: { path } }) => {
   return (
@@ -34,6 +35,7 @@ const TeamManager = ({ match: { path } }) => {
         <Route path={`${path}/my-logs`} component={MyLogs} />
         <Route path={`${path}/settings`} component={Settings} />
         <Route path={`${path}/financial-reports`} component={FinancialReports} />
+        <Route path={`${path}/payment-accounts`} component={PaymentAccount} />
       </Switch>
     </Suspense>
   )
