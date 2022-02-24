@@ -29,7 +29,7 @@ function PaymentAccountTable({
   onChangePage,
   onChangeRowsPerPage
 }) {
-  const columns = ['Payment Platform', 'Address', 'Display Name']
+  const columns = ['Payment Platform', 'Address', 'Display Name', 'Description']
 
   const showPaymentAccountDetail = useCallback(
     id => () => {
@@ -50,11 +50,12 @@ function PaymentAccountTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {results.map(({ id, platform, address, display_name }) => (
+          {results.map(({ id, platform, address, display_name, description }) => (
             <TableRow key={id} hover>
               <TableCell>{getPlatformLabel(platform)}</TableCell>
               <TableCell>{address}</TableCell>
               <TableCell>{display_name}</TableCell>
+              <TableCell>{description}</TableCell>
               <TableCell>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton onClick={showPaymentAccountDetail(id)}>

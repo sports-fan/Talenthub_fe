@@ -17,7 +17,8 @@ import { URL_PREFIXES } from 'config/constants'
 const initialValues = {
   platform: '',
   address: '',
-  display_name: ''
+  display_name: '',
+  description: ''
 }
 
 const PaymentAccountNew = ({ createPaymentAccount, me, history }) => {
