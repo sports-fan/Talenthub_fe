@@ -212,48 +212,54 @@ let structure = {
     },
     {
       id: 3,
+      label: 'Payment Accounts',
+      link: `/team-manager/payment-accounts`,
+      icon: <AccountIcon />
+    },
+    {
+      id: 4,
       label: 'Team Members',
       link: `/team-manager/users`,
       icon: <UserIcon />
     },
     {
-      id: 4,
+      id: 5,
       label: 'Profiles',
       link: `/team-manager/profiles`,
       icon: <ProfileIcon />
     },
     {
-      id: 5,
+      id: 6,
       label: 'Accounts',
       link: `/team-manager/accounts`,
       icon: <AccountIcon />
     },
     {
-      id: 6,
+      id: 7,
       label: 'Partners',
       link: '/team-manager/partners',
       icon: <PartnerIcon />
     },
     {
-      id: 7,
+      id: 8,
       label: 'Clients',
       link: '/team-manager/clients',
       icon: <ClientIcon />
     },
     {
-      id: 8,
+      id: 9,
       label: 'Projects',
       link: '/team-manager/projects',
       icon: <ProjectIcon />
     },
     {
-      id: 9,
+      id: 10,
       label: 'My logs',
       link: '/team-manager/my-logs',
       icon: <LogIcon />
     },
     {
-      id: 10,
+      id: 11,
       label: 'Reports',
       link: '/team-manager/logging',
       icon: <ReportIcon />
@@ -312,36 +318,42 @@ let structure = {
     },
     {
       id: 3,
+      label: 'Payment Accounts',
+      link: `/developer/payment-accounts`,
+      icon: <AccountIcon />
+    },
+    {
+      id: 4,
       label: 'Profiles',
       link: `/developer/profiles`,
       icon: <ProfileIcon />
     },
     {
-      id: 4,
+      id: 5,
       label: 'Accounts',
       link: `/developer/accounts`,
       icon: <AccountIcon />
     },
     {
-      id: 5,
+      id: 6,
       label: 'Clients',
       link: '/developer/clients',
       icon: <ClientIcon />
     },
     {
-      id: 6,
+      id: 7,
       label: 'Partners',
       link: '/developer/partners',
       icon: <PartnerIcon />
     },
     {
-      id: 7,
+      id: 8,
       label: 'Projects',
       link: '/developer/projects',
       icon: <ProjectIcon />
     },
     {
-      id: 8,
+      id: 9,
       label: 'My logs',
       link: '/developer/my-logs',
       icon: <LogIcon />
