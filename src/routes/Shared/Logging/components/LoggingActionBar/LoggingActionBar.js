@@ -12,7 +12,7 @@ import SimpleSelect from 'components/SimpleSelect'
 import LocalizedDatePicker from 'components/LocalizedDatePicker'
 import EditableSelect from 'components/EditableSelect'
 import { searchUsers, userSearchResultsSelector } from 'store/modules/user'
-import { generateDecrementArray, generateIncrementArray } from 'helpers/utils'
+import { generateDecrementArray, generateIncrementArray, getAsianFullName } from 'helpers/utils'
 import { getDate, datePickerLabelFunc } from '../../routes/utils'
 import { LOG_OPTIONS, URL_PREFIXES, INTERVALS } from 'config/constants'
 import useStyles from './styles'
@@ -119,7 +119,7 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
   const userList = useMemo(() => {
     if (users) {
       return users.map(user => ({
-        label: user.full_name,
+        label: getAsianFullName(user),
         value: user.id
       }))
     } else {
