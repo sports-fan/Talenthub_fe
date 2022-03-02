@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 import { NOTIFICATION_CONFIG } from 'config/constants'
 import useStyles from './styles'
 
@@ -16,7 +16,7 @@ const NotificationTextSlice = ({ notification, path, closeNC, slice }) => {
         to={`${path}/users/${notification.creator.id}/detail`}
         color="primary"
         onClick={handleCloseNC}>
-        {getFullName(notification.creator)}
+        {getAsianFullName(notification.creator)}
       </Link>
     )
   } else if (slice === '{{object}}') {

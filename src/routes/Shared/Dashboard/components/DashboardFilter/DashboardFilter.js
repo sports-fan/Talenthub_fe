@@ -10,7 +10,7 @@ import { getTeamMembers, teamMemberSelector } from 'store/modules/team'
 import { searchUsers, userSearchResultsSelector } from 'store/modules/user'
 import { meSelector } from 'store/modules/auth'
 import { ROLES } from 'config/constants'
-import { parseQueryString, jsonToQueryString, getFullName } from 'helpers/utils'
+import { parseQueryString, jsonToQueryString, getAsianFullName } from 'helpers/utils'
 
 const DashboardFilter = ({
   teamId,
@@ -84,13 +84,13 @@ const DashboardFilter = ({
         ? teamMembers
           ? teamMembers.map(user => ({
               value: user.id.toString(),
-              label: getFullName(user)
+              label: getAsianFullName(user)
             }))
           : [{ label: '', value: '' }]
         : users
         ? users.map(user => ({
             value: user.id.toString(),
-            label: user.full_name
+            label: getAsianFullName(user)
           }))
         : [{ label: '', value: '' }],
     [users, teamMembers, showAllUsers]
