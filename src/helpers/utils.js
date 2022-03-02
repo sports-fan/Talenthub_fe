@@ -185,8 +185,16 @@ export const getPastTime = date => {
   const currentTime = new Date().getTime()
   const eventTime = new Date(date).getTime()
   const delta = (currentTime - eventTime) / 1000
+  const days = Math.floor(delta / 86400)
   const hours = Math.floor(delta / 3600)
   const minutes = Math.floor((delta % 3600) / 60)
   const seconds = Math.floor(delta % 60)
-  return ` ${hours}h ${minutes}m ${seconds}s ago`
+  if (days) {
+    return days > 1 ? `${days} days ago` : `a day ago`
+  } else if (hours >= 3) return `at ${format(date, 'yyyy-MM-dd')}`
+  else if (hours >= 1) {
+    return hours > 1 ? `${hours} hours ago` : `an hour ago`
+  } else if (minutes >= 1) {
+    return minutes > 1 ? `${minutes} minutes ago` : `a minute ago`
+  } else return `${seconds}seconds ago`
 }
