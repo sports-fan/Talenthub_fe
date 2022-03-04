@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 import TransactionForm from 'components/TransactionForm'
 import { approveFinancialRequest, getFinancialRequests } from 'store/modules/financialRequest'
 import { formSubmit } from 'helpers/form'
-import { PAYMENT_PLATFORM_TYPE, FINANCIALREQUEST_STATUS } from 'config/constants'
+import { FINANCIALREQUEST_STATUS } from 'config/constants'
 import { getPendingRequests } from 'store/modules/dashboard'
 
 const formatDate = date => {
@@ -37,13 +37,14 @@ const ApproveRequestModal = ({
   getPendingRequests,
   dashboard,
   pagination,
-  me
+  me,
+  paymentAccountId
 }) => {
   const initialValues = {
     gross_amount: grossAmount,
     net_amount: grossAmount,
     created_at: formatDate(new Date()),
-    payment_platform: PAYMENT_PLATFORM_TYPE.PAYPAL
+    payment_account: paymentAccountId
   }
 
   const handleSubmit = useCallback(

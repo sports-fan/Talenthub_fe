@@ -63,7 +63,8 @@ const FinancialRequestDetail = ({
     } else {
       show('approveRequestModal', {
         requestId: financialRequestDetail.id,
-        grossAmount: financialRequestDetail.amount
+        grossAmount: financialRequestDetail.amount,
+        paymentAccountId: financialRequestDetail.payment_account.id
       })
     }
   }, [show, approveFinancialRequest, financialRequestDetail])
@@ -159,11 +160,18 @@ const FinancialRequestDetail = ({
                       <LabelValue label="Address">{financialRequestDetail.address}</LabelValue>
                     </Grid>
                   </Grid>
+
                   <Grid container className={classes.row} spacing={2}>
-                    <Grid item>
+                    <Grid item sm={6}>
                       <LabelValue label="Description">{financialRequestDetail.description}</LabelValue>
                     </Grid>
+                    <Grid item sm={6}>
+                      <LabelValue label="Payment Account">
+                        {financialRequestDetail.payment_account.display_name}
+                      </LabelValue>
+                    </Grid>
                   </Grid>
+
                   <div className={classes.hrline} />
                   {ROLES.ADMIN === me.role && financialRequestDetail.status === FINANCIALREQUEST_STATUS.PENDING ? (
                     <>

@@ -72,7 +72,7 @@ const AllFinancialRequest = ({
           success: getAllFinancialRequests
         })
       } else {
-        show('approveRequestModal', { requestId, grossAmount })
+        show('approveRequestModal', { requestId, grossAmount, paymentAccountId })
       }
     },
     [show, approveFinancialRequest, getAllFinancialRequests]
