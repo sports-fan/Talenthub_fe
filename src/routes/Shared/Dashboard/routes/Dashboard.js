@@ -132,7 +132,7 @@ const Dashboard = ({
   )
 
   const handleApprove = useCallback(
-    (requestId, gross_amount, request_type, paymentAccuntId) => {
+    (requestId, gross_amount, request_type, paymentAccountId) => {
       if (request_type === FINANCIALREQUEST_TYPE.SENDINVOICE) {
         approveFinancialRequest({
           id: requestId,
