@@ -16,7 +16,6 @@ import {
   confirmCancelFinancialRequest as cancelFinancialRequest
 } from 'store/modules/financialRequest'
 import { meSelector } from 'store/modules/auth'
-import ApproveRequestModal from 'components/ApproveRequestModal'
 import { ROLES, URL_PREFIXES, FINANCIALREQUEST_STATUS } from 'config/constants'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
@@ -91,7 +90,6 @@ const DeclinedFinancialRequest = ({
             </Widget>
           </Grid>
         </Grid>
-        <ApproveRequestModal />
       </>
     )
 }

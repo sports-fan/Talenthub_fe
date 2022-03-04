@@ -126,7 +126,7 @@ function FinancialRequestTable({
                     {status === FINANCIALREQUEST_STATUS.PENDING ? (
                       <>
                         <Tooltip key={`${id}Approve`} title="Approve" placement="top">
-                          <IconButton onClick={() => onApprove(id, amount, type)}>
+                          <IconButton onClick={() => onApprove(id, amount, type, payment_account.id)}>
                             <ApproveIcon className={classes.success} />
                           </IconButton>
                         </Tooltip>

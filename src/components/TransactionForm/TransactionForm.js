@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Field } from 'formik'
 import { Button } from '@material-ui/core'
 import { connect } from 'react-redux'
@@ -8,10 +8,26 @@ import PropTypes from 'prop-types'
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import useStyles from './styles'
-import { PAYMENT_PLATFORM_OPTIONS, FINANCIALREQUEST_TYPE } from 'config/constants'
+import { FINANCIALREQUEST_TYPE } from 'config/constants'
+import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/paymentAccount'
 
-const TransactionForm = ({ handleSubmit, onClose, requestType }) => {
+const TransactionForm = ({ handleSubmit, onClose, requestType, getPaymentAccounts, paymentAccounts }) => {
   const classes = useStyles()
+
+  useEffect(() => {
+    getPaymentAccounts()
+  }, [getPaymentAccounts])
+
+  const paymentAccountOptions = useMemo(
+    () =>
+      paymentAccounts
+        ? paymentAccounts.results.map(paymentAccount => ({
+            value: paymentAccount.id,
+            label: `${paymentAccount.display_name} (${paymentAccount.address}) - ${paymentAccount.platform}`
+          }))
+        : [],
+    [paymentAccounts]
+  )
 
   return (
     <form onSubmit={handleSubmit}>
@@ -29,11 +45,11 @@ const TransactionForm = ({ handleSubmit, onClose, requestType }) => {
       <Field component={FormInput} type="date" htmlId="created_at" name="created_at" label="Date" />
       <Field
         component={FormEditableSelect}
-        htmlId="payment_platform"
+        htmlId="payment_account"
         type="text"
-        name="payment_platform"
-        label="Payment Platform"
-        options={PAYMENT_PLATFORM_OPTIONS}
+        name="payment_account"
+        label="Payment Account"
+        options={paymentAccountOptions}
       />
       <div className={classes.formButtonWrapper}>
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
@@ -47,9 +63,13 @@ const TransactionForm = ({ handleSubmit, onClose, requestType }) => {
   )
 }
 
-const actions = {}
+const actions = {
+  getPaymentAccounts
+}
 
-const selectors = createStructuredSelector({})
+const selectors = createStructuredSelector({
+  paymentAccounts: paymentAccountsSelector
+})
 
 TransactionForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,

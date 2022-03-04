@@ -132,7 +132,7 @@ const Dashboard = ({
   )
 
   const handleApprove = useCallback(
-    (requestId, gross_amount, request_type) => {
+    (requestId, gross_amount, request_type, paymentAccuntId) => {
       if (request_type === FINANCIALREQUEST_TYPE.SENDINVOICE) {
         approveFinancialRequest({
           id: requestId,
@@ -140,7 +140,7 @@ const Dashboard = ({
         })
       } else {
         const dashboard = true
-        show('approveRequestModal', { requestId, gross_amount, dashboard })
+        show('approveRequestModal', { requestId, gross_amount, dashboard, paymentAccountId })
       }
     },
     [show, approveFinancialRequest, getPendingRequests]
