@@ -42,11 +42,10 @@ export const jsonToQueryString = obj => {
 
 export const getPageCount = ({ page_size }, count) => Math.ceil(count / page_size)
 
-export const truncateText = text => {
-  if (text.length > 50) {
-    return text.slice(0, 50) + '...'
-  } else return text
-}
+export const truncateText = R.when(
+  R.propSatisfies(R.gt(R.__, 30), 'length'),
+  R.pipe(R.take(30), R.append('…'), R.join(''))
+)
 
 export const fromMsgStrToArray = str => {
   const splitters = ['{{', '}}']
@@ -170,7 +169,7 @@ export const bindCallbackToPromise = () => {
 }
 
 export const formatPAInfo = paymentAccount => {
-  return `${paymentAccount?.display_name} (${paymentAccount?.address}) - ${paymentAccount?.platform}`
+  return `${paymentAccount?.display_name} (${paymentAccount?.address})`
 }
 
 export const dateStringToLocalDate = s => {
