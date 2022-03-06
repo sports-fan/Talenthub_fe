@@ -189,11 +189,10 @@ export const getPastTime = date => {
   const minutes = Math.floor((delta % 3600) / 60)
   const seconds = Math.floor(delta % 60)
   if (days) {
-    return days > 1 ? `: ${days} days ago` : `: a day ago`
-  } else if (hours >= 3) return `: at ${format(date, ': yyyy-MM-dd')}`
-  else if (hours >= 1) {
-    return hours > 1 ? `: ${hours} hours ago` : `: an hour ago`
-  } else if (minutes >= 1) {
-    return minutes > 1 ? `: ${minutes} minutes ago` : `: a minute ago`
-  } else return `: ${seconds}seconds ago`
+    return { value: -days, unit: 'day' }
+  } else if (hours) {
+    return { value: -hours, unit: 'hour' }
+  } else if (minutes) {
+    return { value: -minutes, unit: 'minute' }
+  } else return { value: -seconds, unit: 'second' }
 }

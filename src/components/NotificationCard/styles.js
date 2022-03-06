@@ -14,5 +14,12 @@ export default makeStyles(theme => ({
   content: {
     paddingTop: theme.spacing(1) / 2,
     paddingBottom: theme.spacing(1) / 2
+  },
+  action: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  event: {
+    paddingLeft: theme.spacing(1)
   }
 }))

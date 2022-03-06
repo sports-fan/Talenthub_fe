@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { FormattedRelativeTime } from 'react-intl'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardActions from '@material-ui/core/CardActions'
@@ -23,10 +24,7 @@ const NotificationCard = props => {
 
   return NOTIFICATION_CONFIG[notification.content_name] && notification.content_object ? (
     <Card className={classes.card} key={index} color="textSecondary">
-      <CardHeader
-        className={classes.title}
-        title={`${NOTIFICATION_CONFIG[notification.content_name]['title']} ${getPastTime(notification.created_at)}`}
-      />
+      <CardHeader className={classes.title} title={`${NOTIFICATION_CONFIG[notification.content_name]['title']}`} />
       <CardContent className={classes.content}>
         <Typography color="textSecondary" variant="body1">
           {fromMsgStrToArray(notification.message).map((part, idx) => (
@@ -37,9 +35,15 @@ const NotificationCard = props => {
           <CancelIcon />
         </IconButton>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.action}>
+        <Typography variant="caption" className={classes.event}>
+          <FormattedRelativeTime
+            value={getPastTime(notification.created_at).value}
+            numeric="auto"
+            unit={getPastTime(notification.created_at).unit}
+          />
+        </Typography>
         <Button
-          className={classes.detail}
           component={Link}
           to={`${path}/${NOTIFICATION_CONFIG[notification.content_name]['path']}/${
             notification.content_object.id
