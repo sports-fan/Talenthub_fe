@@ -34,10 +34,10 @@ const LogList = ({ data, interval }) => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                <LogCard content={plan} editable={false} />
+                <LogCard title="Plan" content={plan} editable={false} />
               </Grid>
               <Grid item xs={6}>
-                <LogCard content={achievements} editable={false} />
+                <LogCard title="Achievements" content={achievements} editable={false} />
               </Grid>
             </Grid>
           </div>
