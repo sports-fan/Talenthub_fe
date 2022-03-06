@@ -17,7 +17,7 @@ import {
 } from 'store/modules/transaction'
 import { getUsers, usersSelector } from 'store/modules/user'
 import { meSelector } from 'store/modules/auth'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 import { URL_PREFIXES, ROLES } from 'config/constants'
 import LabelValue from 'components/LabelValue'
 import { FINANCIALREQUEST_TYPE_LABELS, FINANCIALREQUEST_TYPE } from 'config/constants'
@@ -40,7 +40,7 @@ const TransactionDetail = ({
     ownerId => {
       if (users) {
         const user = users.results.filter(userItem => userItem.id === parseInt(ownerId))
-        return getFullName(user[0])
+        return getAsianFullName(user[0])
       }
     },
     [users]
@@ -70,18 +70,6 @@ const TransactionDetail = ({
                       <FormattedDate value={transactionDetail.created_at} format="dayMonthAndYear" />{' '}
                       <FormattedTime value={transactionDetail.created_at} />
                     </LabelValue>
-                    <LabelValue label="Gross Amount">
-                      <FormattedNumber format="currency" value={transactionDetail.gross_amount} />
-                    </LabelValue>
-                    <LabelValue label="Net Amount">
-                      <FormattedNumber format="currency" value={transactionDetail.net_amount} />
-                    </LabelValue>
-                    <LabelValue label="Payment Account">
-                      {`${transactionDetail.payment_account.display_name} (${transactionDetail.payment_account.address}) - ${transactionDetail.payment_account.platform}`}
-                    </LabelValue>
-                    <LabelValue label="Description">{transactionDetail.description}</LabelValue>
-                  </Grid>
-                  <Grid item sm={6}>
                     <LabelValue label="Requested by">
                       {role === ROLES.DEVELOPER ? (
                         getOnwerFullname(transactionDetail.owner)
@@ -92,6 +80,19 @@ const TransactionDetail = ({
                       )}
                     </LabelValue>
                     <LabelValue label="From/To">{transactionDetail.address}</LabelValue>
+                    <LabelValue label="Gross Amount">
+                      <FormattedNumber format="currency" value={transactionDetail.gross_amount} />
+                    </LabelValue>
+                    <LabelValue label="Net Amount">
+                      <FormattedNumber format="currency" value={transactionDetail.net_amount} />
+                    </LabelValue>
+                    <LabelValue label="Payment Account">
+                      {`${transactionDetail.payment_account.display_name || 'None'} (${
+                        transactionDetail.payment_account.address
+                      }) - ${transactionDetail.payment_account.platform}`}
+                    </LabelValue>
+                  </Grid>
+                  <Grid item sm={6}>
                     {fr ? (
                       <>
                         <LabelValue label="Financial Request Type">{FINANCIALREQUEST_TYPE_LABELS[fr.type]}</LabelValue>
@@ -110,6 +111,9 @@ const TransactionDetail = ({
                         )}
                       </>
                     ) : null}
+                  </Grid>
+                  <Grid item sm={12}>
+                    <LabelValue label="Description">{transactionDetail.description}</LabelValue>
                   </Grid>
                 </Grid>
               </Widget>

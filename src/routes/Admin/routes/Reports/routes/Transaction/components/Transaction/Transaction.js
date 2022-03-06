@@ -11,7 +11,7 @@ const Transaction = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={TransactionList} />
     <Route exact path={`${path}/:id/detail`} component={TransactionDetail} />
-    <Route exact path={`${path}/:id/Edit`} component={TransactionEdit} />
+    <Route exact path={`${path}/:id/edit`} component={TransactionEdit} />
     <Route exact path={`${path}/new`} component={TransactionNew} />
     <Redirect to={`${path}`} />
   </Switch>

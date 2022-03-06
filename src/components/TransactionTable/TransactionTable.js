@@ -13,6 +13,7 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core'
+import { show } from 'redux-modal'
 import { Edit as EditIcon, Delete as DeleteIcon, Details as DetailsIcon } from '@material-ui/icons'
 import PropTypes from 'prop-types'
 
@@ -20,7 +21,7 @@ import Spinner from 'components/Spinner'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { URL_PREFIXES } from 'config/constants'
 import useStyles from './styles'
-import { getFullName, formatPAInfo, getProjectName } from 'helpers/utils'
+import { getAsianFullName, getProjectName } from 'helpers/utils'
 import { ListDataType } from 'helpers/prop-types'
 import { getUsers, usersSelector } from 'store/modules/user'
 import { getProjects, projectsSelector } from 'store/modules/project'
@@ -39,10 +40,20 @@ function TransactionTable({
   getUsers,
   users,
   getProjects,
-  projects
+  projects,
+  show
 }) {
   const classes = useStyles()
-  const columns = ['Date', 'From/To', 'Gross amount', 'Net Amount', 'Owner', 'Project', 'Description', 'PaymentAccount']
+  const columns = [
+    'Date',
+    'From/To',
+    'Gross Amount',
+    'Net Amount',
+    'Owner',
+    'Project',
+    'Payment Account',
+    'Description'
+  ]
   const role = me?.role
 
   useEffect(() => {
@@ -52,23 +63,25 @@ function TransactionTable({
 
   const showTransactionEdit = useCallback(
     id => () => {
-      history.push(`/${URL_PREFIXES[role]}/financial-reports/transactions/${id}/Edit`, location.pathname)
+      history.push(`/${URL_PREFIXES[role]}/financial-reports/transactions/${id}/edit`, location.pathname)
     },
     [history, location.pathname, role]
   )
 
   const showTransactionDetail = useCallback(
     id => () => {
-      history.push(`/${URL_PREFIXES[role]}/financial-reports/transactions/${id}/Detail`, location.pathname)
+      show('TransactionDetailModal', {
+        transactionId: id
+      })
     },
-    [history, location.pathname, role]
+    [show]
   )
 
   const getOnwerFullname = useCallback(
     ownerId => {
       if (users) {
         const user = users.results.filter(userItem => userItem.id === parseInt(ownerId))
-        return getFullName(user[0])
+        return getAsianFullName(user[0])
       }
     },
     [users]
@@ -110,8 +123,8 @@ function TransactionTable({
                 </TableCell>
                 <TableCell>{getOnwerFullname(owner)}</TableCell>
                 <TableCell>{projects ? getProjectName(projectId)(projects.results) : null}</TableCell>
-                <TableCell>{truncateText(description)}</TableCell>
-                <TableCell>{formatPAInfo(paymentAccount)}</TableCell>
+                <TableCell>{paymentAccount.display_name || 'None'}</TableCell>
+                <TableCell>{description ? truncateText(description) : null}</TableCell>
                 <TableCell>
                   <Tooltip key={`${id}Detail`} title="Detail" placement="top">
                     <IconButton onClick={showTransactionDetail(id)}>
@@ -153,6 +166,7 @@ function TransactionTable({
 }
 
 const actions = {
+  show,
   getUsers,
   getProjects
 }
@@ -163,6 +177,7 @@ const selector = createStructuredSelector({
 })
 
 TransactionTable.propTypes = {
+  show: PropTypes.func.isRequired,
   data: ListDataType,
   me: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
