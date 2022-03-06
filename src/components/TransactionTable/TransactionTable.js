@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core'
 import { Edit as EditIcon, Delete as DeleteIcon, Details as DetailsIcon } from '@material-ui/icons'
 import PropTypes from 'prop-types'
-// import * as R from 'ramda'
 
 import Spinner from 'components/Spinner'
 import { FormattedDate, FormattedNumber } from 'react-intl'
@@ -26,6 +25,7 @@ import { ListDataType } from 'helpers/prop-types'
 import { getUsers, usersSelector } from 'store/modules/user'
 import { getProjects, projectsSelector } from 'store/modules/project'
 import { createStructuredSelector } from 'reselect'
+import { truncateText } from 'helpers/utils'
 
 function TransactionTable({
   data,
@@ -110,7 +110,7 @@ function TransactionTable({
                 </TableCell>
                 <TableCell>{getOnwerFullname(owner)}</TableCell>
                 <TableCell>{projects ? getProjectName(projectId)(projects.results) : null}</TableCell>
-                <TableCell>{description}</TableCell>
+                <TableCell>{truncateText(description)}</TableCell>
                 <TableCell>{formatPAInfo(paymentAccount)}</TableCell>
                 <TableCell>
                   <Tooltip key={`${id}Detail`} title="Detail" placement="top">
