@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import ConfirmModal from 'components/ConfirmModal'
 import TeamReportModal from 'components/TeamReportModal'
 import IndividualReportModal from 'components/IndividualReportModal'
+import TransactionDetailModal from 'components/TransactionDetailModal'
 
 function App({ isAuthenticated, authGetMe, meLoading, getNotificationPermission }) {
   useEffect(() => {
@@ -34,6 +35,7 @@ function App({ isAuthenticated, authGetMe, meLoading, getNotificationPermission 
         </Router>
         <TeamReportModal />
         <IndividualReportModal />
+        <TransactionDetailModal />
       </>
     )
   }

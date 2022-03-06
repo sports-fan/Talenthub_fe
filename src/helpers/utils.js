@@ -169,7 +169,7 @@ export const bindCallbackToPromise = () => {
 }
 
 export const formatPAInfo = paymentAccount => {
-  return `${paymentAccount?.display_name} (${paymentAccount?.address})`
+  return `${paymentAccount?.display_name}`
 }
 
 export const dateStringToLocalDate = s => {
