@@ -38,8 +38,8 @@ const TransactionForm = ({ handleSubmit, onClose, requestType, getPaymentAccount
         </>
       ) : (
         <>
-          <Field component={FormInput} htmlId="net_amount" type="number" name="net_amount" label="Gross Amount" />
-          <Field component={FormInput} htmlId="gross_amount" type="number" name="gross_amount" label="Net Amount" />
+          <Field component={FormInput} htmlId="net_amount" type="number" name="net_amount" label="Net Amount" />
+          <Field component={FormInput} htmlId="gross_amount" type="number" name="gross_amount" label="Gross Amount" />
         </>
       )}
       <Field component={FormInput} type="date" htmlId="created_at" name="created_at" label="Date" />

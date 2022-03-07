@@ -140,7 +140,7 @@ const Dashboard = ({
         })
       } else {
         const dashboard = true
-        show('approveRequestModal', { requestId, gross_amount, dashboard, paymentAccountId })
+        show('approveRequestModal', { requestId, gross_amount, dashboard, request_type, paymentAccountId })
       }
     },
     [show, approveFinancialRequest, getPendingRequests]

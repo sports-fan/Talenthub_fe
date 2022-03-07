@@ -37,7 +37,7 @@ const Menu = props => (
 )
 
 const Option = props => (
-  <MenuItem buttonRef={props.innerRef} selected={props.isFocused} component="div" {...props.innerProps}>
+  <MenuItem ref={props.innerRef} selected={props.isFocused} component="div" {...props.innerProps}>
     {props.children}
   </MenuItem>
 )
