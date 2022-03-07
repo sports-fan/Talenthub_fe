@@ -16,6 +16,7 @@ import { URL_PREFIXES } from 'config/constants'
 
 const initialValues = {
   owner: ' ',
+  project: '',
   address: ' ',
   gross_amount: ' ',
   net_amount: ' ',

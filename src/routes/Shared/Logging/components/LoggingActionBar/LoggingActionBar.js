@@ -270,7 +270,7 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
           </Grid>
         </Grid>
         <Grid item sm={8} className={classes.datePick}>
-          <Grid container className={classes.grid} spacing={5} alignItems="center" justify="flex-end">
+          <Grid container className={classes.grid} spacing={5} alignItems="center" justifyContent="flex-end">
             <Grid item>
               <SimpleSelect label="Period" value={interval} options={LOG_OPTIONS} onChange={handleIntervalChange} />
             </Grid>

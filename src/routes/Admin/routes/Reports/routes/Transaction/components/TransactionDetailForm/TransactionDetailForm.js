@@ -15,6 +15,7 @@ import { URL_PREFIXES } from 'config/constants'
 import { getAsianFullName } from 'helpers/utils'
 import { meSelector } from 'store/modules/auth'
 import { getUsers, usersSelector } from 'store/modules/user'
+import { getProjects, projectsSelector } from 'store/modules/project'
 import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/paymentAccount'
 import FormDatePicker from 'components/FormDatePicker'
 import FormSelect from 'components/FormSelect'
@@ -36,9 +37,12 @@ const TransactionDetailForm = ({
   me,
   match: { params },
   users,
+  projects,
   paymentAccounts,
   getUsers,
-  getPaymentAccounts
+  getPaymentAccounts,
+  getProjects,
+  values
 }) => {
   const classes = useStyles()
 
@@ -46,6 +50,14 @@ const TransactionDetailForm = ({
     getUsers(me)
     getPaymentAccounts()
   }, [getUsers, getPaymentAccounts, me])
+
+  useEffect(() => {
+    getProjects({
+      params: {
+        project_starter: values.owner
+      }
+    })
+  }, [getProjects, values.owner])
 
   const handleGoBack = useCallback(() => {
     location.state
@@ -62,6 +74,17 @@ const TransactionDetailForm = ({
           }))
         : [],
     [users]
+  )
+
+  const projectOptions = useMemo(
+    () =>
+      projects
+        ? projects.results.map(project => ({
+            value: project.id,
+            label: project.title
+          }))
+        : [],
+    [projects]
   )
 
   const paymentAccountOptions = useMemo(
@@ -85,6 +108,14 @@ const TransactionDetailForm = ({
         label="Owner"
         placeholder="Choose one developer..."
         options={userOptions}
+      />
+      <Field
+        component={FormEditableSelect}
+        htmlId="project"
+        name="project"
+        label="Project"
+        placeholder="Choose one project..."
+        options={projectOptions}
       />
       <Field component={FormInput} type="text" htmlId="address" name="address" label="From/To" />
       <Field component={FormInput} type="text" htmlId="gross_amount" name="gross_amount" label="Gross amount" />
@@ -138,11 +169,13 @@ TransactionDetailForm.propTypes = {
 const selector = createStructuredSelector({
   me: meSelector,
   users: usersSelector,
-  paymentAccounts: paymentAccountsSelector
+  paymentAccounts: paymentAccountsSelector,
+  projects: projectsSelector
 })
 
 const actions = {
   getUsers,
-  getPaymentAccounts
+  getPaymentAccounts,
+  getProjects
 }
 export default compose(withRouter, connect(selector, actions))(TransactionDetailForm)

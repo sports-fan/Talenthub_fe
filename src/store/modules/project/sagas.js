@@ -11,7 +11,7 @@ const getProjects = createApiCallSaga({
     return yield roleBasedPath('projects/')
   },
   selectorKey: 'projects',
-  allowedParamKeys: ['page', 'page_size']
+  allowedParamKeys: ['page', 'page_size', 'project_starter']
 })
 
 const deleteProject = createApiCallSaga({

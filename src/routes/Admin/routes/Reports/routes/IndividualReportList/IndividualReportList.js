@@ -223,7 +223,7 @@ const IndividualReportList = ({
             title="Individuals"
             disableWidgetMenu
             WidgetButton={
-              <Grid container spacing={2} alignItems="stretch" justify="flex-end">
+              <Grid container spacing={2} alignItems="stretch" justifyContent="flex-end">
                 <Grid item>
                   <Tooltip title="Export as CSV" placement="top">
                     <Button onClick={handleDownload} variant="outlined" color="primary" className={classes.download}>
