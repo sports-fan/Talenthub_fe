@@ -75,8 +75,8 @@ function LogsTable({
               count={data.count}
               rowsPerPage={pagination.page_size}
               page={pagination.page - 1}
-              onChangePage={onChangePage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
+              onPageChange={onChangePage}
+              onRowsPerPageChange={onChangeRowsPerPage}
             />
           </TableRow>
         </TableFooter>
