@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
 import { ROLES } from 'config/constants'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 
 function PartnerTable({ data, role, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
   const columns = useMemo(
@@ -53,7 +53,7 @@ function PartnerTable({ data, role, handleDelete, match: { path }, pagination, o
                   </Tooltip>
                 ))}
               </TableCell>
-              {role === ROLES.DEVELOPER ? null : <TableCell>{getFullName(owner)}</TableCell>}
+              {role === ROLES.DEVELOPER ? null : <TableCell>{getAsianFullName(owner)}</TableCell>}
               <TableCell>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton component={Link} to={`${path}/${id}/detail`}>

@@ -16,7 +16,7 @@ import PropTypes from 'prop-types'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
-import { getFullName } from 'helpers/utils'
+import { getFullName, getAsianFullName } from 'helpers/utils'
 
 const columns = ['Owner', 'Profile', 'Platform Type', 'Email', 'Password', 'Location', 'URL', 'Actions']
 
@@ -34,7 +34,7 @@ function AccountTable({ data, handleDelete, match: { path }, pagination, onChang
         <TableBody>
           {data.results.map(({ id, profile, account_platform, email, password, location, url }) => (
             <TableRow key={id} hover>
-              <TableCell>{getFullName(profile.user)}</TableCell>
+              <TableCell>{getAsianFullName(profile.user)}</TableCell>
               <TableCell>{getFullName(profile)}</TableCell>
               <TableCell>{account_platform?.name}</TableCell>
               <TableCell>{email}</TableCell>

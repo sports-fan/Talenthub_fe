@@ -12,7 +12,7 @@ import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import useStyles from './styles'
 import { URL_PREFIXES } from 'config/constants'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 import { meSelector } from 'store/modules/auth'
 import { getUsers, usersSelector } from 'store/modules/user'
 import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/paymentAccount'
@@ -58,7 +58,7 @@ const TransactionDetailForm = ({
       users
         ? users.results.map(user => ({
             value: user.id,
-            label: getFullName(user)
+            label: getAsianFullName(user)
           }))
         : [],
     [users]

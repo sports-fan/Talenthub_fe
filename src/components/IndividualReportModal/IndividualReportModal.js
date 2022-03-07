@@ -19,7 +19,7 @@ import {
   individualDeveloperProjectEarningSelector,
   downloadIndividualDeveloperProjectsEarning
 } from 'store/modules/report'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 import { periodOptions } from 'config/constants'
 import Spinner from 'components/Spinner'
 import useStyles from './styles'
@@ -42,7 +42,7 @@ const IndividualReportModal = ({
 }) => {
   const classes = useStyles()
   const column = ['Project Title', 'Earning']
-  const developer = getFullName(earning)
+  const developer = getAsianFullName(earning)
 
   useEffect(() => {
     getIndividualDeveloperEarningReport({

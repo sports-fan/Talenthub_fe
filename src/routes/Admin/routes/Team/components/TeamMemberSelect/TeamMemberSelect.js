@@ -8,7 +8,7 @@ import { show } from 'redux-modal'
 import PropTypes from 'prop-types'
 
 import { useStyles } from './styles'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 
 const inputComponent = ({ inputRef, ...props }) => <div ref={inputRef} {...props} />
 
@@ -88,7 +88,7 @@ const TeamMemberSelect = ({ show, onClick, onDelete, options, defaultOptions, ..
       options
         ? options.map(userItem => ({
             value: userItem.id,
-            label: getFullName(userItem)
+            label: getAsianFullName(userItem)
           }))
         : [],
     [options]
@@ -99,7 +99,7 @@ const TeamMemberSelect = ({ show, onClick, onDelete, options, defaultOptions, ..
       defaultOptions
         ? defaultOptions.map(userItem => ({
             value: userItem.id,
-            label: getFullName(userItem)
+            label: getAsianFullName(userItem)
           }))
         : [],
     [defaultOptions]

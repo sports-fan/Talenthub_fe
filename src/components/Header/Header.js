@@ -16,7 +16,7 @@ import { authLogout } from 'store/modules/auth'
 import { meSelector } from 'store/modules/auth/selectors'
 import { notificationsSelector } from 'store/modules/notification'
 import { URL_PREFIXES } from 'config/constants'
-import { getFullName } from 'helpers/utils'
+import { getAsianFullName } from 'helpers/utils'
 
 function Header({ me, authLogout, openNC, notifications }) {
   var classes = useStyles()
@@ -85,7 +85,7 @@ function Header({ me, authLogout, openNC, notifications }) {
           disableAutoFocusItem>
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {getFullName(me)}
+              {getAsianFullName(me)}
             </Typography>
             <Typography className={classes.profileMenuLink} component="a" color="primary">
               {me.email}
