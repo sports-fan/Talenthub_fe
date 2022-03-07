@@ -123,7 +123,7 @@ function TransactionTable({
                 </TableCell>
                 <TableCell>{getOnwerFullname(owner)}</TableCell>
                 <TableCell>{projects ? getProjectName(projectId)(projects.results) : null}</TableCell>
-                <TableCell>{paymentAccount.display_name || 'None'}</TableCell>
+                <TableCell>{paymentAccount?.display_name || 'None'}</TableCell>
                 <TableCell>{description ? truncateText(description) : null}</TableCell>
                 <TableCell>
                   <Tooltip key={`${id}Detail`} title="Detail" placement="top">
