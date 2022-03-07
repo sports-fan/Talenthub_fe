@@ -64,7 +64,8 @@ const FinancialRequestDetail = ({
       show('approveRequestModal', {
         requestId: financialRequestDetail.id,
         grossAmount: financialRequestDetail.amount,
-        paymentAccountId: financialRequestDetail.payment_account.id
+        paymentAccountId: financialRequestDetail.payment_account.id,
+        requestType: financialRequestDetail.type
       })
     }
   }, [show, approveFinancialRequest, financialRequestDetail])

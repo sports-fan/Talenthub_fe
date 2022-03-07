@@ -38,7 +38,7 @@ const NoOptionsMessage = props => (
 )
 
 const Option = props => (
-  <MenuItem buttonRef={props.innerRef} selected={props.isFocused} component="div" {...props.innerProps}>
+  <MenuItem ref={props.innerRef} selected={props.isFocused} component="div" {...props.innerProps}>
     {props.children}
   </MenuItem>
 )
@@ -83,6 +83,8 @@ const EditableSelect = props => {
   return (
     <Select
       {...selectProps}
+      menuPortalTarget={document.body}
+      styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
       placeholder={placeholder || 'All'}
       name={name}
       value={selectProps.options.find(option => option.value === value) || null}
