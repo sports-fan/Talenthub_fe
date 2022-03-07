@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect'
 import { format } from 'date-fns'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 
 import { meSelector } from 'store/modules/auth'
 import SimpleSelect from 'components/SimpleSelect'
@@ -28,6 +29,16 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
   const selectedYear = date ? new Date(date).getFullYear() : parseInt(year)
   const selectedMonth = date ? new Date(date).getMonth() + 2 : parseInt(month)
 
+  const oneDayPeriod = 86400000
+  const previousDateOfSelectedDate = useMemo(
+    () => new Date(new Date(logDetail?.created_at || selectedDate).getTime() - oneDayPeriod),
+    [logDetail, selectedDate]
+  )
+  const nextDateofSelectedDate = useMemo(
+    () => new Date(new Date(logDetail?.created_at || selectedDate).getTime() + oneDayPeriod),
+    [logDetail, selectedDate]
+  )
+
   const handleIntervalChange = useCallback(
     event => {
       const interval = event.target.value
@@ -42,6 +53,7 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
           history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${selectedUserId}`)
           break
         case INTERVALS.WEEKLY:
+          console.log(logDetail)
           history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
           break
         case INTERVALS.MONTHLY:
@@ -60,6 +72,14 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
     },
     [history, selectedUserId, me.role]
   )
+
+  const viewPrevDayLog = useCallback(() => {
+    history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${previousDateOfSelectedDate}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role, previousDateOfSelectedDate])
+
+  const viewNextDayLog = useCallback(() => {
+    history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${nextDateofSelectedDate}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role, nextDateofSelectedDate])
 
   const handleWeekChange = useCallback(
     date => {
@@ -100,6 +120,21 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
     const year = today.getFullYear()
     const week = parseInt(format(today, 'ww')) - 1
     history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role])
+
+  const viewNextWeekLog = useCallback(() => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const week = parseInt(format(today, 'ww')) - 1
+    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week + 1}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role])
+
+  const viewPrevWeekLog = useCallback(() => {
+    console.log(logDetail)
+    //   const today = new Date()
+    // const year = today.getFullYear()
+    // const week = parseInt(format(today, 'ww')) - 1
+    // history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week - 1}/${selectedUserId}`)
   }, [history, selectedUserId, me.role])
 
   const handleThisMonthClick = useCallback(() => {
@@ -171,12 +206,22 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
             {interval === INTERVALS.DAILY ? (
               <>
                 <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewPrevDayLog}>
+                    <NavigateBefore />
+                  </Button>
+                </Grid>
+                <Grid item>
                   <LocalizedDatePicker
                     margin="normal"
                     label="Choose a date"
                     value={selectedDate}
                     onChange={handleDateChange}
                   />
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewNextDayLog}>
+                    <NavigateNext />
+                  </Button>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary" onClick={handleTodayClick}>
@@ -187,6 +232,11 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
             ) : interval === INTERVALS.WEEKLY ? (
               <>
                 <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewPrevWeekLog}>
+                    <NavigateBefore />
+                  </Button>
+                </Grid>
+                <Grid item>
                   <LocalizedDatePicker
                     margin="normal"
                     label="Choose a week of month"
@@ -194,6 +244,11 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
                     onChange={handleWeekChange}
                     labelFunc={datePickerLabelFunc}
                   />
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewNextWeekLog}>
+                    <NavigateNext />
+                  </Button>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary" onClick={handleThisWeekClick}>
