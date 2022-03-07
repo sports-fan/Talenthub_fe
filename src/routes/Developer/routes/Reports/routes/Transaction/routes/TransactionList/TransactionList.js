@@ -24,7 +24,7 @@ import {
 import { meSelector } from 'store/modules/auth'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
-import { parseQueryString, jsonToQueryString, getFullName } from 'helpers/utils'
+import { parseQueryString, jsonToQueryString, getAsianFullName } from 'helpers/utils'
 import { periodOptions, FINANCIALREQUEST_TYPE_OPTIONS, FINANCIALREQUEST_TYPE } from 'config/constants'
 
 const TransactionList = ({
@@ -177,7 +177,7 @@ const TransactionList = ({
     const { from, to, period, type } = queryObj
     if (!from) {
       downloadTransactions({
-        fileName: getFullName(me),
+        fileName: getAsianFullName(me),
         params: {
           period,
           type
@@ -185,7 +185,7 @@ const TransactionList = ({
       })
     } else {
       downloadTransactions({
-        fileName: getFullName(me),
+        fileName: getAsianFullName(me),
         params: {
           period: 'custom',
           from,
