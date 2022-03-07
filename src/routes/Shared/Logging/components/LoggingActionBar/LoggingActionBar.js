@@ -28,6 +28,7 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
   const selectedUserId = logDetail ? logDetail.owner.id : parseInt(userId)
   const selectedYear = date ? new Date(date).getFullYear() : parseInt(year)
   const selectedMonth = date ? new Date(date).getMonth() + 2 : parseInt(month)
+  const selectedWeek = date ? parseInt(format(new Date(date), 'ww')) : parseInt(week)
 
   const oneDayPeriod = 86400000
   const previousDateOfSelectedDate = useMemo(
@@ -53,7 +54,6 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
           history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${selectedUserId}`)
           break
         case INTERVALS.WEEKLY:
-          console.log(logDetail)
           history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
           break
         case INTERVALS.MONTHLY:
@@ -74,11 +74,15 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
   )
 
   const viewPrevDayLog = useCallback(() => {
-    history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${previousDateOfSelectedDate}/${selectedUserId}`)
+    history.push(
+      `/${URL_PREFIXES[me.role]}/logging/daily/${format(previousDateOfSelectedDate, 'yyyy-MM-dd')}/${selectedUserId}`
+    )
   }, [history, selectedUserId, me.role, previousDateOfSelectedDate])
 
   const viewNextDayLog = useCallback(() => {
-    history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${nextDateofSelectedDate}/${selectedUserId}`)
+    history.push(
+      `/${URL_PREFIXES[me.role]}/logging/daily/${format(nextDateofSelectedDate, 'yyyy-MM-dd')}/${selectedUserId}`
+    )
   }, [history, selectedUserId, me.role, nextDateofSelectedDate])
 
   const handleWeekChange = useCallback(
@@ -90,6 +94,25 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
     },
     [history, selectedUserId, me.role]
   )
+
+  const handleThisWeekClick = useCallback(() => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const week = parseInt(format(today, 'ww')) - 1
+    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role])
+
+  const viewNextWeekLog = useCallback(() => {
+    const year = selectedWeek < 53 ? selectedYear : selectedYear + 1
+    const week = selectedWeek < 53 ? selectedWeek + 1 : 1
+    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role, selectedWeek, selectedYear])
+
+  const viewPrevWeekLog = useCallback(() => {
+    const year = selectedWeek > 1 ? selectedYear : selectedYear - 1
+    const week = selectedWeek > 1 ? selectedWeek - 1 : 53
+    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
+  }, [history, selectedUserId, me.role, selectedWeek, selectedYear])
 
   const handleYearChange = useCallback(
     event => {
@@ -107,34 +130,26 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
     [history, selectedYear, me.role, selectedUserId]
   )
 
+  const viewPrevMonthLog = useCallback(() => {
+    const year = selectedMonth > 1 ? selectedYear : selectedYear - 1
+    const month = selectedMonth > 1 ? selectedMonth - 1 : 12
+
+    history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${year}-${month}/${selectedUserId}`)
+  }, [history, selectedYear, me.role, selectedUserId, selectedMonth])
+
+  const viewNextMonthLog = useCallback(() => {
+    const year = selectedMonth < 12 ? selectedYear : selectedYear + 1
+    const month = selectedMonth < 12 ? selectedMonth + 1 : 1
+
+    history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${year}-${month}/${selectedUserId}`)
+  }, [history, selectedYear, me.role, selectedUserId, selectedMonth])
+
   const handleTodayClick = useCallback(() => {
     const today = new Date()
     const year = today.getFullYear()
     const month = today.getMonth() + 1
     const day = today.getDate()
     history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${selectedUserId}`)
-  }, [history, selectedUserId, me.role])
-
-  const handleThisWeekClick = useCallback(() => {
-    const today = new Date()
-    const year = today.getFullYear()
-    const week = parseInt(format(today, 'ww')) - 1
-    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${selectedUserId}`)
-  }, [history, selectedUserId, me.role])
-
-  const viewNextWeekLog = useCallback(() => {
-    const today = new Date()
-    const year = today.getFullYear()
-    const week = parseInt(format(today, 'ww')) - 1
-    history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week + 1}/${selectedUserId}`)
-  }, [history, selectedUserId, me.role])
-
-  const viewPrevWeekLog = useCallback(() => {
-    console.log(logDetail)
-    //   const today = new Date()
-    // const year = today.getFullYear()
-    // const week = parseInt(format(today, 'ww')) - 1
-    // history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week - 1}/${selectedUserId}`)
   }, [history, selectedUserId, me.role])
 
   const handleThisMonthClick = useCallback(() => {
@@ -259,6 +274,11 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
             ) : (
               <>
                 <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewPrevMonthLog}>
+                    <NavigateBefore />
+                  </Button>
+                </Grid>
+                <Grid item>
                   <form className={classes.container}>
                     <FormControl className={classes.formControl}>
                       <InputLabel htmlFor="year">Year</InputLabel>
@@ -281,6 +301,11 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
                       </Select>
                     </FormControl>
                   </form>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary" onClick={viewNextMonthLog}>
+                    <NavigateNext />
+                  </Button>
                 </Grid>
                 <Grid item>
                   <Button className={classes.button} onClick={handleThisMonthClick} variant="outlined" color="primary">
