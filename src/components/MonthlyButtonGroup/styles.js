@@ -17,18 +17,16 @@ export default makeStyles(theme => ({
     minWidth: 40,
     textAlign: 'center'
   },
-  userSelect: {
-    padding: theme.spacing(3)
+  buttonMargin: {
+    marginRight: theme.spacing(1)
   },
-  selectComponent: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
-    width: '60%'
+  selectMonth: {
+    display: 'flex',
+    width: 'auto',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
-  pnButton: {
-    height: '100%'
-  },
-  datePick: {
-    padding: theme.spacing(3)
+  button: {
+    maxHeight: theme.spacing(5)
   }
 }))
