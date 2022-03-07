@@ -33,7 +33,7 @@ const DailyButtonGroup = ({ location, history }) => {
     [history, location]
   )
 
-  const viewTodayLog = useCallback(() => {
+  const handleViewTodayLog = useCallback(() => {
     const date = Date.now()
     history.push({
       search: jsonToQueryString({
@@ -43,7 +43,7 @@ const DailyButtonGroup = ({ location, history }) => {
     })
   }, [history, location])
 
-  const viewPrevDayLog = useCallback(() => {
+  const handleViewPrevDayLog = useCallback(() => {
     history.push({
       search: jsonToQueryString({
         ...parseQueryString(location.search),
@@ -52,7 +52,7 @@ const DailyButtonGroup = ({ location, history }) => {
     })
   }, [history, location, previousDateOfSelectedDate])
 
-  const viewNextDayLog = useCallback(() => {
+  const handleViewNextDayLog = useCallback(() => {
     history.push({
       search: jsonToQueryString({
         ...parseQueryString(location.search),
@@ -64,7 +64,7 @@ const DailyButtonGroup = ({ location, history }) => {
   return (
     <>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewPrevDayLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewPrevDayLog}>
           <NavigateBefore />
         </Button>
       </Grid>
@@ -72,12 +72,12 @@ const DailyButtonGroup = ({ location, history }) => {
         <LocalizedDatePicker margin="normal" label="Choose a date" value={selectedDate} onChange={handleDateChange} />
       </Grid>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewNextDayLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewNextDayLog}>
           <NavigateNext />
         </Button>
       </Grid>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewTodayLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewTodayLog}>
           Today
         </Button>
       </Grid>

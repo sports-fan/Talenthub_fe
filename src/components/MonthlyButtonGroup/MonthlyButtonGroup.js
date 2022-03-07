@@ -43,7 +43,7 @@ const MonthlyButtonGroup = ({ location, history }) => {
     [history, location, selectedYear]
   )
 
-  const viewThisMonthLog = useCallback(() => {
+  const handleViewThisMonthLog = useCallback(() => {
     const date = new Date()
     history.push({
       search: jsonToQueryString({
@@ -54,7 +54,7 @@ const MonthlyButtonGroup = ({ location, history }) => {
     })
   }, [history, location])
 
-  const viewPrevMonthLog = useCallback(() => {
+  const handleViewPrevMonthLog = useCallback(() => {
     const year = selectedMonth > 1 ? selectedYear : selectedYear - 1
     const month = selectedMonth > 1 ? selectedMonth - 1 : 12
 
@@ -67,7 +67,7 @@ const MonthlyButtonGroup = ({ location, history }) => {
     })
   }, [history, location, selectedMonth, selectedYear])
 
-  const viewNextMonthLog = useCallback(() => {
+  const handleViewNextMonthLog = useCallback(() => {
     const year = selectedMonth < 12 ? selectedYear : selectedYear + 1
     const month = selectedMonth < 12 ? selectedMonth + 1 : 1
 
@@ -86,7 +86,7 @@ const MonthlyButtonGroup = ({ location, history }) => {
   return (
     <>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewPrevMonthLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewPrevMonthLog}>
           <NavigateBefore />
         </Button>
       </Grid>
@@ -115,12 +115,12 @@ const MonthlyButtonGroup = ({ location, history }) => {
         </form>
       </Grid>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewNextMonthLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewNextMonthLog}>
           <NavigateNext />
         </Button>
       </Grid>
       <Grid item>
-        <Button className={classes.button} onClick={viewThisMonthLog} variant="outlined" color="primary">
+        <Button className={classes.button} onClick={handleViewThisMonthLog} variant="outlined" color="primary">
           this month
         </Button>
       </Grid>

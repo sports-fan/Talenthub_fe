@@ -36,7 +36,7 @@ const WeeklyButtonGroup = ({ detail = false, location, history }) => {
     [history, location]
   )
 
-  const viewThisWeekLog = useCallback(() => {
+  const handleViewThisWeekLog = useCallback(() => {
     const date = new Date()
     const year = date.getFullYear()
     const week = format(date, 'ww')
@@ -50,7 +50,7 @@ const WeeklyButtonGroup = ({ detail = false, location, history }) => {
     })
   }, [history, location])
 
-  const viewPrevWeekLog = useCallback(() => {
+  const handleViewPrevWeekLog = useCallback(() => {
     const year = selectedWeek > 1 ? selectedYear : selectedYear - 1
     const week = selectedWeek > 1 ? selectedWeek - 1 : 53
 
@@ -63,7 +63,7 @@ const WeeklyButtonGroup = ({ detail = false, location, history }) => {
     })
   }, [history, location, selectedYear, selectedWeek])
 
-  const viewNextWeekLog = useCallback(() => {
+  const handleViewNextWeekLog = useCallback(() => {
     const year = selectedWeek < 53 ? selectedYear : selectedYear + 1
     const week = selectedWeek < 53 ? selectedWeek + 1 : 1
 
@@ -78,7 +78,7 @@ const WeeklyButtonGroup = ({ detail = false, location, history }) => {
   return (
     <>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewPrevWeekLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewPrevWeekLog}>
           <NavigateBefore />
         </Button>
       </Grid>
@@ -92,12 +92,12 @@ const WeeklyButtonGroup = ({ detail = false, location, history }) => {
         />
       </Grid>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewNextWeekLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewNextWeekLog}>
           <NavigateNext />
         </Button>
       </Grid>
       <Grid item>
-        <Button variant="outlined" color="primary" onClick={viewThisWeekLog}>
+        <Button variant="outlined" color="primary" onClick={handleViewThisWeekLog}>
           This Week
         </Button>
       </Grid>
