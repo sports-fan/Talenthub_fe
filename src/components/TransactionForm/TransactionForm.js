@@ -49,6 +49,7 @@ const TransactionForm = ({ handleSubmit, onClose, requestType, getPaymentAccount
         type="text"
         name="payment_account"
         label="Payment Account"
+        placeholder="Select One"
         options={paymentAccountOptions}
       />
       <div className={classes.formButtonWrapper}>

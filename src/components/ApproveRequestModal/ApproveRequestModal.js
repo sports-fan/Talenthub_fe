@@ -30,6 +30,7 @@ const ApproveRequestModal = ({
   requestId,
   grossAmount,
   requestType,
+  paymentAccountId,
   show,
   handleHide,
   approveFinancialRequest,
@@ -37,8 +38,7 @@ const ApproveRequestModal = ({
   getPendingRequests,
   dashboard,
   pagination,
-  me,
-  paymentAccountId
+  me
 }) => {
   const initialValues = {
     gross_amount: grossAmount,
