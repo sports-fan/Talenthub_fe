@@ -28,13 +28,14 @@ const TransactionEdit = ({
 
   const initialValues = useMemo(
     () => ({
-      owner: transactionDetail?.owner || '',
+      owner: parseInt(transactionDetail?.owner) || '',
+      project: parseInt(transactionDetail?.project) || '',
       address: transactionDetail?.address || '',
       gross_amount: transactionDetail?.gross_amount || 0,
       net_amount: transactionDetail?.net_amount || 0,
       created_at: transactionDetail?.created_at || '',
       description: transactionDetail?.description || '',
-      payment_account: transactionDetail?.payment_account || ''
+      payment_account: transactionDetail?.payment_account.id || ''
     }),
     [transactionDetail]
   )

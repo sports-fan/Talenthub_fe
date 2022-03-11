@@ -25,7 +25,7 @@ const LoggingLayout = ({ title, interval, logs, actions, me, pagination, onChang
       disableWidgetMenu
       disableWidgetButton={me.role === ROLES.DEVELOPER}
       WidgetButton={
-        <Grid container className={classes.grid} spacing={2} alignItems="center" justify="flex-end">
+        <Grid container className={classes.grid} spacing={2} alignItems="center" justifyContent="flex-end">
           <Grid item>
             <PeriodButtonGroup selectedPeriod={interval} me={me} loggingOrMyLogs="logging" />
           </Grid>

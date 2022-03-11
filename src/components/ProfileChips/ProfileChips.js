@@ -22,7 +22,7 @@ const ProfileChips = props => {
   }, [history, me])
 
   return (
-    <Grid container alignItems="center" justify="center" wrap="wrap">
+    <Grid container alignItems="center" justifyContent="center" wrap="wrap">
       {profiles.map(profile => (
         <BlockChip
           key={profile.id}
