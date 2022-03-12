@@ -22,13 +22,16 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
   const {
     params: { year, month, day, week, userId }
   } = match
-  const date = logDetail ? logDetail.created_at : undefined
+
   let classes = useStyles()
+
+  const date = logDetail ? logDetail.created_at : undefined
   const selectedDate = getDate(date, year, month, week, day)
   const selectedUserId = logDetail ? logDetail.owner.id : parseInt(userId)
-  const selectedYear = date ? new Date(date).getFullYear() : parseInt(year)
-  const selectedMonth = date ? new Date(date).getMonth() + 2 : parseInt(month)
-  const selectedWeek = date ? parseInt(format(new Date(date), 'ww')) : parseInt(week)
+  const selectedYear = dateStringToLocalDate(selectedDate).getFullYear()
+  const selectedMonth = dateStringToLocalDate(selectedDate).getMonth() + 1
+  const selectedWeek = parseInt(format(dateStringToLocalDate(selectedDate), 'ww')) - 1
+  const selectedDay = parseInt(format(dateStringToLocalDate(selectedDate), 'dd'))
 
   const handleIntervalChange = useCallback(
     event => {
@@ -167,26 +170,23 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
 
   const handleUserChange = useCallback(
     userId => {
-      const today = new Date()
-      const year = today.getFullYear()
-      const month = today.getMonth() + 1
-      const day = today.getDate()
-      const week = format(today, 'ww') - 1
       switch (interval) {
         case INTERVALS.DAILY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${userId}`)
+          history.push(
+            `/${URL_PREFIXES[me.role]}/logging/daily/${selectedYear}-${selectedMonth}-${selectedDay}/${userId}`
+          )
           break
         case INTERVALS.WEEKLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${userId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${selectedYear}-${selectedWeek}/${userId}`)
           break
         case INTERVALS.MONTHLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${year}-${month}/${userId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${selectedYear}-${selectedMonth}/${userId}`)
           break
         default:
           break
       }
     },
-    [me, history, interval]
+    [me, history, interval, selectedYear, selectedMonth, selectedWeek, selectedDay]
   )
 
   const handleViewPrevUserLog = useCallback(() => {
@@ -195,26 +195,24 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
 
     if (index > 0) {
       const nextUserId = users[index - 1].id
-      const today = new Date()
-      const year = today.getFullYear()
-      const month = today.getMonth() + 1
-      const day = today.getDate()
-      const week = format(today, 'ww') - 1
+
       switch (interval) {
         case INTERVALS.DAILY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${nextUserId}`)
+          history.push(
+            `/${URL_PREFIXES[me.role]}/logging/daily/${selectedYear}-${selectedMonth}-${selectedDay}/${nextUserId}`
+          )
           break
         case INTERVALS.WEEKLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${nextUserId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${selectedYear}-${selectedWeek}/${nextUserId}`)
           break
         case INTERVALS.MONTHLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${year}-${month}/${nextUserId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${selectedYear}-${selectedMonth}/${nextUserId}`)
           break
         default:
           break
       }
     }
-  }, [me, history, interval, users, logDetail, userId])
+  }, [me, history, interval, users, logDetail, userId, selectedYear, selectedMonth, selectedWeek, selectedDay])
 
   const handleViewNextUserLog = useCallback(() => {
     const ownerId = logDetail ? parseInt(logDetail.owner.id) : users.filter(user => user.id === parseInt(userId))[0].id
@@ -222,26 +220,24 @@ const LoggingActionBar = ({ logDetail, history, match, me, interval, searchUsers
 
     if (index < users.length - 1) {
       const nextUserId = users[index + 1].id
-      const today = new Date()
-      const year = today.getFullYear()
-      const month = today.getMonth() + 1
-      const day = today.getDate()
-      const week = format(today, 'ww') - 1
+
       switch (interval) {
         case INTERVALS.DAILY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/daily/${year}-${month}-${day}/${nextUserId}`)
+          history.push(
+            `/${URL_PREFIXES[me.role]}/logging/daily/${selectedYear}-${selectedMonth}-${selectedDay}/${nextUserId}`
+          )
           break
         case INTERVALS.WEEKLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${year}-${week}/${nextUserId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/${selectedYear}-${selectedWeek}/${nextUserId}`)
           break
         case INTERVALS.MONTHLY:
-          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${year}-${month}/${nextUserId}`)
+          history.push(`/${URL_PREFIXES[me.role]}/logging/monthly/${selectedYear}-${selectedMonth}/${nextUserId}`)
           break
         default:
           break
       }
     }
-  }, [me, history, interval, users, logDetail, userId])
+  }, [me, history, interval, users, logDetail, userId, selectedYear, selectedMonth, selectedWeek, selectedDay])
 
   return (
     <Paper>
