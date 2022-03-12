@@ -38,6 +38,7 @@ const ProjectEdit = ({
       title: projectDetail?.title || '',
       type: projectDetail?.type || '',
       weekly_limit: projectDetail?.weekly_limit || '',
+      payment_period: projectDetail?.payment_period || '',
       price: projectDetail?.price || '',
       started_at: projectDetail?.started_at || '',
       ended_at: projectDetail?.ended_at || '',
@@ -57,7 +58,9 @@ const ProjectEdit = ({
             ...values,
             ended_at:
               values.type === PROJECT_TYPE.BUDGET || values.status === PROJECT_STATUS.ENDED ? values.ended_at : null,
-            weekly_limit: values.type !== PROJECT_TYPE.BUDGET ? values.weekly_limit : null,
+            weekly_limit:
+              values.type === PROJECT_TYPE.BUDGET || values.type === PROJECT_TYPE.CONTRACT ? null : values.weekly_limit,
+            payment_period: values.type === PROJECT_TYPE.CONTRACT ? values.payment_period : null,
             ...(me.role === ROLES.DEVELOPER
               ? {
                   project_starter: me.id,

@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import DateFnsUtils from '@date-io/date-fns'
 import { format } from 'date-fns'
 
-import { PAYMENT_PLATFORM_OPTIONS, SNACKBAR_TOUCHED } from 'config/constants'
+import { PAYMENT_PLATFORM_OPTIONS, SNACKBAR_TOUCHED, PROJECT_TYPE } from 'config/constants'
 
 export const getPlatformLabel = paymentPlatform =>
   R.compose(
@@ -195,4 +195,10 @@ export const getPastTime = date => {
   } else if (minutes) {
     return { value: -minutes, unit: 'minute' }
   } else return { value: -seconds, unit: 'second' }
+}
+
+export const getPriceLabelFromProjectType = type => {
+  if (type === PROJECT_TYPE.BUDGET) return 'Price'
+  else if (type === PROJECT_TYPE.CONTRACT) return 'Amount'
+  else return 'Hourly Rate'
 }
