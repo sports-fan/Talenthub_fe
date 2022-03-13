@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import LogCard from 'routes/Shared/MyLogs/components/LogCard'
 import Spinner from 'components/Spinner'
 import useStyles from './styles'
-import { getWeekOfMonth } from 'helpers/utils'
+import { getWeekOfMonth, dateStringToLocalDate } from 'helpers/utils'
 import { none } from 'ramda'
 
 const LogList = ({ data, interval }) => {
@@ -28,7 +28,7 @@ const LogList = ({ data, interval }) => {
                 {interval === 'monthly' ? (
                   <Typography>{getWeekLabel(created_at)}</Typography>
                 ) : interval === 'weekly' ? (
-                  <Typography>{format(new Date(created_at), 'eeee')}</Typography>
+                  <Typography>{format(dateStringToLocalDate(created_at), 'yyyy/MM/dd eeee')}</Typography>
                 ) : (
                   none
                 )}
