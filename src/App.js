@@ -13,6 +13,7 @@ import ConfirmModal from 'components/ConfirmModal'
 import TeamReportModal from 'components/TeamReportModal'
 import IndividualReportModal from 'components/IndividualReportModal'
 import TransactionDetailModal from 'components/TransactionDetailModal'
+import FinancialRequestDetailModal from 'components/FinancialRequestDetailModal'
 
 function App({ isAuthenticated, authGetMe, meLoading, getNotificationPermission }) {
   useEffect(() => {
@@ -36,6 +37,7 @@ function App({ isAuthenticated, authGetMe, meLoading, getNotificationPermission 
         <TeamReportModal />
         <IndividualReportModal />
         <TransactionDetailModal />
+        <FinancialRequestDetailModal />
       </>
     )
   }

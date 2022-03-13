@@ -17,9 +17,8 @@ import {
 import { getUsers, usersSelector } from 'store/modules/user'
 import { meSelector } from 'store/modules/auth'
 import LabelValue from 'components/LabelValue'
-import { FINANCIALREQUEST_TYPE_LABELS, FINANCIALREQUEST_TYPE } from 'config/constants'
+import { FINANCIALREQUEST_TYPE_LABELS, FINANCIALREQUEST_TYPE, URL_PREFIXES } from 'config/constants'
 import { truncateText, getAsianFullName } from 'helpers/utils'
-import { URL_PREFIXES } from 'config/constants'
 
 const TransactionDetailModal = ({
   getUsers,
@@ -54,7 +53,7 @@ const TransactionDetailModal = ({
   return (
     transactionDetail && (
       <Dialog open={show} onClose={handleHide} fullWidth maxWidth="md">
-        <DialogTitle id="form-dialog-title">Transaction Detail</DialogTitle>
+        <DialogTitle id="form-dialog-title">Transaction Details</DialogTitle>
         <DialogContent className={classes.paper}>
           {isTransactionDetailLoading ? (
             <Spinner />
