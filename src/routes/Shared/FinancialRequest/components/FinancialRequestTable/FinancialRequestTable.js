@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import {
   Edit as EditIcon,
   Details as DetailsIcon,
@@ -18,6 +20,7 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core'
+import { show } from 'redux-modal'
 import PropTypes from 'prop-types'
 
 import useStyles from './styles'
@@ -45,7 +48,8 @@ function FinancialRequestTable({
   fromDashboard,
   pagination,
   onChangePage,
-  onChangeRowsPerPage
+  onChangeRowsPerPage,
+  show
 }) {
   const classes = useStyles()
   const columns = ['Time', 'Project', 'Sender', 'To', 'Amount', 'Payment account', 'Type', 'Status', 'Actions']
@@ -59,9 +63,11 @@ function FinancialRequestTable({
 
   const showFinancialRequestDetail = useCallback(
     id => () => {
-      history.push(`/${URL_PREFIXES[me.role]}/financial-requests/${id}/detail`, location.pathname)
+      show('FinancialRequestDetailModal', {
+        financialRequestId: id
+      })
     },
-    [history, location.pathname, me.role]
+    [show]
   )
 
   if (data) {
@@ -87,14 +93,7 @@ function FinancialRequestTable({
               <TableCell>
                 <FormattedNumber format="currency" value={amount} />
               </TableCell>
-              {payment_account ? (
-                <TableCell>
-                  {`${payment_account.display_name} (${payment_account.address}) - ${payment_account.platform}`}
-                </TableCell>
-              ) : (
-                <TableCell></TableCell>
-              )}
-
+              <TableCell>{payment_account?.display_name || 'None'}</TableCell>
               <TableCell>{FINANCIALREQUEST_TYPE_LABELS[type]}</TableCell>
               <TableCell>{FINANCIALREQUEST_STATUS_LABELS[status]}</TableCell>
               <TableCell>
@@ -164,9 +163,13 @@ function FinancialRequestTable({
   }
 }
 
-export default withRouter(FinancialRequestTable)
+const actions = {
+  show
+}
+export default compose(withRouter, connect(null, actions))(FinancialRequestTable)
 
 FinancialRequestTable.propTypes = {
+  show: PropTypes.func.isRequired,
   data: ListDataType,
   me: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
