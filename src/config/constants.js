@@ -357,6 +357,27 @@ export const periodOptions = [
   }
 ]
 
+export const PAYMENT_PERIODS = {
+  WEEKLY: 1,
+  BI_WEEKLY: 2,
+  MONTHLY: 3
+}
+
+export const PAYMENT_PERIOD_OPTIONS = [
+  {
+    value: PAYMENT_PERIODS.WEEKLY,
+    label: 'Weekly'
+  },
+  {
+    value: PAYMENT_PERIODS.BI_WEEKLY,
+    label: 'Bi-Weekly'
+  },
+  {
+    value: PAYMENT_PERIODS.MONTHLY,
+    label: 'Monthly'
+  }
+]
+
 export const LOG_OPTIONS = [
   {
     value: 'daily',

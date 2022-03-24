@@ -31,7 +31,7 @@ const TeamNew = ({ createTeamAndRefresh, history }) => {
   )
 
   return (
-    <Widget title="Create Team" disableWidgetMenu>
+    <Widget title="Add a Team" disableWidgetMenu>
       <Formik
         component={TeamEditForm}
         onSubmit={handleSubmit}

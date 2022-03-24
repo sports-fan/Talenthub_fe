@@ -36,7 +36,7 @@ const UserNew = ({ createUser, getTeams, teams, history, role }) => {
 
   return (
     <div>
-      <Widget title="Create User" disableWidgetMenu>
+      <Widget title="Add an User" disableWidgetMenu>
         <Formik
           component={UserDetailForm}
           onSubmit={handleSubmit}

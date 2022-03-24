@@ -49,7 +49,7 @@ const PartnerNew = ({ createPartner, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Partner" disableWidgetMenu>
+        <Widget title="Add a Partner" disableWidgetMenu>
           <Formik
             component={PartnerDetailForm}
             initialValues={initialValues}
