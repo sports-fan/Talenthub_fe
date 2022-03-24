@@ -47,7 +47,7 @@ const ProfileNew = ({ createProfile, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Profile" disableWidgetMenu>
+        <Widget title="Add a Profile" disableWidgetMenu>
           <Formik
             component={ProfileDetailForm}
             initialValues={initialValues}

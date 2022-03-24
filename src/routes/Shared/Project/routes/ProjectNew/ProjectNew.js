@@ -60,7 +60,7 @@ const ProjectNew = ({ createProject, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Project" disableWidgetMenu>
+        <Widget title="Add a Project" disableWidgetMenu>
           <Formik
             component={ProjectDetailForm}
             initialValues={initialValues}

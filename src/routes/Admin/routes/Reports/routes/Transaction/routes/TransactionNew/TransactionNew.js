@@ -43,7 +43,7 @@ const TransactionNew = ({ createTransaction, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Transaction" disableWidgetMenu>
+        <Widget title="Add a Transaction" disableWidgetMenu>
           <Formik
             component={TransactionDetailForm}
             initialValues={initialValues}

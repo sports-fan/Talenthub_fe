@@ -39,7 +39,7 @@ const PaymentAccountNew = ({ createPaymentAccount, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Payment Account" disableWidgetMenu>
+        <Widget title="Add a Payment Account" disableWidgetMenu>
           <Formik
             component={PaymentAccountDetailForm}
             initialValues={initialValues}

@@ -44,7 +44,7 @@ const AccountNew = ({ createAccount, history, me }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Account" disableWidgetMenu>
+        <Widget title="Add an Account" disableWidgetMenu>
           <Formik
             component={AccountDetailForm}
             initialValues={initialValues}

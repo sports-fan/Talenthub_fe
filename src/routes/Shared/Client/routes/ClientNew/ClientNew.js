@@ -49,7 +49,7 @@ const ClientNew = ({ createClient, me, history }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Client" disableWidgetMenu>
+        <Widget title="Add a Client" disableWidgetMenu>
           <Formik
             component={ClientDetailForm}
             initialValues={initialValues}

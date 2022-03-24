@@ -44,7 +44,7 @@ const FinancialRequestNew = ({ createFinancialRequest, history, me: { role } }) 
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Widget title="Create Financial Request" disableWidgetMenu>
+        <Widget title="Add a Financial Request" disableWidgetMenu>
           <Formik
             component={FinancialRequestDetailForm}
             initialValues={initialValues}
