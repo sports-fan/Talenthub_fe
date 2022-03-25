@@ -70,6 +70,7 @@ const ClientDetailForm = ({ handleSubmit, values, location, history, me, match: 
           type="text"
           name="owner"
           label="Owner"
+          placeholder="Select an Owner"
           options={userLists}
           validate={validateOwnerField}
         />

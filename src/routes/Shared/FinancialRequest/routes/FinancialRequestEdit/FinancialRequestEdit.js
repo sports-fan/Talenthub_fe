@@ -44,6 +44,7 @@ const FinancialRequestEdit = ({
             sender: financialRequestDetail?.requester.id || ''
           }
         : {}),
+      payment_account: financialRequestDetail?.payment_account?.id || '',
       description: financialRequestDetail?.description || ''
     }),
     [financialRequestDetail, me.role]

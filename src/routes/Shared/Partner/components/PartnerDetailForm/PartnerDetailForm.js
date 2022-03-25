@@ -81,6 +81,7 @@ const PartnerDetailForm = ({
           name="owner"
           label="Owner"
           options={userList}
+          placeholder="Select an Owner"
           validate={validateOwnerField}
         />
       )}
