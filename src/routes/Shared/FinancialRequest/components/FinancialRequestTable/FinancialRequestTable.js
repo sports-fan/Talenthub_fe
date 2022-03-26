@@ -96,7 +96,7 @@ function FinancialRequestTable({
               <TableCell>{payment_account?.display_name || 'None'}</TableCell>
               <TableCell>{FINANCIALREQUEST_TYPE_LABELS[type]}</TableCell>
               <TableCell>{FINANCIALREQUEST_STATUS_LABELS[status]}</TableCell>
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Detail`} title="Detail" placement="top">
                   <IconButton onClick={showFinancialRequestDetail(id)}>
                     <DetailsIcon color="primary" />

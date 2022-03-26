@@ -15,5 +15,8 @@ export default makeStyles(theme => ({
   },
   tableRow: {
     cursor: 'pointer'
+  },
+  action: {
+    whiteSpace: 'nowrap'
   }
 }))

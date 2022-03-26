@@ -125,7 +125,7 @@ function TransactionTable({
                 <TableCell>{projects ? getProjectName(projectId)(projects.results) : null}</TableCell>
                 <TableCell>{paymentAccount?.display_name || 'None'}</TableCell>
                 <TableCell>{description ? truncateText(description) : null}</TableCell>
-                <TableCell>
+                <TableCell className={classes.action}>
                   <Tooltip key={`${id}Detail`} title="Detail" placement="top">
                     <IconButton onClick={showTransactionDetail(id)}>
                       <DetailsIcon color="primary" />

@@ -19,8 +19,10 @@ import { CLIENT_TYPE_LABELS, CLIENT_TYPES } from 'config/constants'
 import { ROLES } from 'config/constants'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
+import useStyles from './styles'
 
 function ClientTable({ data, role, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
+  const classes = useStyles()
   const columns = useMemo(
     () =>
       role === ROLES.DEVELOPER
@@ -46,7 +48,7 @@ function ClientTable({ data, role, handleDelete, match: { path }, pagination, on
               <TableCell>{type === CLIENT_TYPES.INDIVIDUAL ? null : company_name}</TableCell>
               <TableCell>{started_at}</TableCell>
               {role === ROLES.DEVELOPER ? null : <TableCell>{getAsianFullName(owner)}</TableCell>}
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton component={Link} to={`${path}/${id}/detail`}>
                     <EditIcon color="primary" />

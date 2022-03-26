@@ -17,10 +17,12 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
 import { getFullName, getAsianFullName } from 'helpers/utils'
+import useStyles from './styles'
 
 const columns = ['Owner', 'Profile', 'Platform Type', 'Email', 'Password', 'Location', 'URL', 'Actions']
 
 function AccountTable({ data, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
+  const classes = useStyles()
   if (data) {
     return (
       <Table className="mb-0">
@@ -41,7 +43,7 @@ function AccountTable({ data, handleDelete, match: { path }, pagination, onChang
               <TableCell>*****</TableCell>
               <TableCell>{location}</TableCell>
               <TableCell>{url}</TableCell>
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton component={Link} to={`${path}/${id}/detail`}>
                     <EditIcon color="primary" />
