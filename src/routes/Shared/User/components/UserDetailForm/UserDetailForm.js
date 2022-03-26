@@ -76,7 +76,14 @@ const UserDetailForm = ({ match: { path }, location, history, handleSubmit, team
         {me.role === ROLES.ADMIN && (
           <>
             <Field component={FormSelect} htmlId="role" name="role" label="Role" options={ROLE_OPTIONS} />
-            <Field component={FormEditableSelect} htmlId="team" name="team" label="Team" options={teamOptions} />
+            <Field
+              component={FormEditableSelect}
+              htmlId="team"
+              name="team"
+              label="Team"
+              options={teamOptions}
+              placeholder="Select a sTeam"
+            />
           </>
         )}
         {!isEdit && (

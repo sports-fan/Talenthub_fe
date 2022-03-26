@@ -78,7 +78,7 @@ function ProjectTable({
                 <TableCell>{getAsianFullName(project_starter)}</TableCell>
               ) : null}
               {!disableActions && (
-                <TableCell>
+                <TableCell className={classes.action}>
                   <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                     <IconButton onClick={showProjectDetail(id)}>
                       <EditIcon color="primary" />

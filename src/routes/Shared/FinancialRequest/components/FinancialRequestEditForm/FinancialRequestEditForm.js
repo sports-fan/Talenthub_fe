@@ -111,6 +111,7 @@ const FinancialRequestDetailForm = ({
           htmlId="project"
           name="project"
           label="Project"
+          placeholder="Select a Project"
           options={projectList}
           validate={value => validateProjectField(value, values.type)}
         />

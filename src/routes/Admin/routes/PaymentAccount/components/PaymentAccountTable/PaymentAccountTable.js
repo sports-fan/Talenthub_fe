@@ -18,6 +18,7 @@ import { URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
 import { getPlatformLabel } from 'helpers/utils'
+import useStyles from './styles'
 
 function PaymentAccountTable({
   data,
@@ -29,6 +30,7 @@ function PaymentAccountTable({
   onChangePage,
   onChangeRowsPerPage
 }) {
+  const classes = useStyles()
   const columns = ['Payment Platform', 'Address', 'Display Name', 'Description']
 
   const showPaymentAccountDetail = useCallback(
@@ -56,7 +58,7 @@ function PaymentAccountTable({
               <TableCell>{address}</TableCell>
               <TableCell>{display_name}</TableCell>
               <TableCell>{description}</TableCell>
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton onClick={showPaymentAccountDetail(id)}>
                     <EditIcon color="primary" />

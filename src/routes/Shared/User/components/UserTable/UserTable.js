@@ -77,7 +77,7 @@ function UserTable({
                 <Chip label={role_patterns[role].role} classes={{ root: classes[role_patterns[role].color] }} />
               </TableCell>
               {[ROLES.ADMIN, ROLES.TEAM_MANAGER].includes(myRole) && (
-                <TableCell>
+                <TableCell className={classes.action}>
                   <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                     <IconButton component={Link} to={`${path}/${id}/detail`}>
                       <EditIcon color="primary" />

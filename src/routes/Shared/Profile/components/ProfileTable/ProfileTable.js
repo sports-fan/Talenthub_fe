@@ -52,7 +52,7 @@ function ProfileTable({ data, handleDelete, match: { path }, pagination, onChang
               <TableCell>{country}</TableCell>
               <TableCell>{dob}</TableCell>
               <TableCell>{gender_patterns[gender]}</TableCell>
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton component={Link} to={`${path}/${id}/detail`}>
                     <EditIcon color="primary" />

@@ -77,6 +77,7 @@ const ProfileDetailForm = ({
             type="text"
             name="user_id"
             label="Owner"
+            placeholder="Select an User"
             options={userOptions}
             validate={value => validateOwnerField(value, me.role)}
           />

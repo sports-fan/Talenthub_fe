@@ -19,8 +19,10 @@ import { ROLES } from 'config/constants'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
+import useStyles from './styles'
 
 function PartnerTable({ data, role, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
+  const classes = useStyles()
   const columns = useMemo(
     () =>
       role === ROLES.DEVELOPER
@@ -54,7 +56,7 @@ function PartnerTable({ data, role, handleDelete, match: { path }, pagination, o
                 ))}
               </TableCell>
               {role === ROLES.DEVELOPER ? null : <TableCell>{getAsianFullName(owner)}</TableCell>}
-              <TableCell>
+              <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
                   <IconButton component={Link} to={`${path}/${id}/detail`}>
                     <EditIcon color="primary" />

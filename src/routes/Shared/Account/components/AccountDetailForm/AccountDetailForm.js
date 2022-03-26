@@ -84,6 +84,7 @@ const AccountDetailForm = ({
         type="text"
         name="profile"
         label="Profile"
+        placeholder="Select a Profile"
         options={profileOptions}
       />
       <Field
@@ -92,6 +93,7 @@ const AccountDetailForm = ({
         type="text"
         name="account_platform"
         label="Platform Type"
+        placeholder="Select a Platform"
         options={platformOptions}
       />
       <Field component={FormInput} htmlId="email" type="email" name="email" label="Email" />

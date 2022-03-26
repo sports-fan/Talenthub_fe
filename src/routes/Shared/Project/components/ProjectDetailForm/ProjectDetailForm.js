@@ -139,7 +139,14 @@ const ProjectDetailForm = ({
         />
       ) : null}
       <Field component={FormSelect} htmlId="status" name="status" label="Status" options={PROJECT_STATUS_OPTIONS} />
-      <Field component={FormEditableSelect} htmlId="client" name="client" label="Client" options={clientList} />
+      <Field
+        component={FormEditableSelect}
+        htmlId="client"
+        name="client"
+        label="Client"
+        options={clientList}
+        placeholder="Select a Client"
+      />
       {role !== ROLES.DEVELOPER ? (
         <div>
           <Field
@@ -147,6 +154,7 @@ const ProjectDetailForm = ({
             htmlId="project_starter"
             name="project_starter"
             label="Project Starter"
+            placeholder="Select a Project Stater"
             options={userList}
             validate={value => validateProjectStarterField(value, role)}
           />
