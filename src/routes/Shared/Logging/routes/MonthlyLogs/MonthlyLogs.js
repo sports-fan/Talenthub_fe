@@ -18,14 +18,15 @@ const MonthlyLogs = ({ getMonthlyLogs, monthlyLogs, me, pagination, location, hi
   const selectedMonth = parseInt(queryObj.month) || new Date().getMonth() + 1
 
   useEffect(() => {
-    const { owner } = queryObj
+    const { owner, team } = queryObj
     getMonthlyLogs({
       role: me.role,
       year: selectedYear,
       month: selectedMonth,
       params: {
         pagination,
-        owner
+        owner,
+        team
       }
     })
   }, [getMonthlyLogs, me.role, selectedMonth, selectedYear, pagination, queryObj])
