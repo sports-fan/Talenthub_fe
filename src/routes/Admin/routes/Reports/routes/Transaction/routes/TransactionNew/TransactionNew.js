@@ -25,19 +25,19 @@ const initialValues = {
   payment_account: ''
 }
 
-const TransactionNew = ({ createTransaction, me, history }) => {
+const TransactionNew = ({ createTransaction, me, history, location }) => {
   const handleSubmit = useCallback(
     (values, formActions) => {
       return formSubmit(
         createTransaction,
         {
           data: values,
-          success: resData => history.push(`/${URL_PREFIXES[me.role]}/financial-reports/transactions`)
+          success: resData => history.push(`/${URL_PREFIXES[me.role]}/financial-reports/transactions${location.search}`)
         },
         formActions
       )
     },
-    [createTransaction, me, history]
+    [createTransaction, me, history, location]
   )
 
   return (

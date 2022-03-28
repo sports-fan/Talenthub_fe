@@ -8,7 +8,7 @@ import ProfileNew from '../../routes/ProfileNew'
 const Profile = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={ProfileList} />
-    <Route exact path={`${path}/:id/detail`} component={ProfileEdit} />
+    <Route exact path={`${path}/:id/edit`} component={ProfileEdit} />
     <Route exact path={`${path}/new`} component={ProfileNew} />
     <Redirect to={`${path}`} />
   </Switch>

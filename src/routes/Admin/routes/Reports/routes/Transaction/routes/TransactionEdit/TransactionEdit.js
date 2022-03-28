@@ -19,6 +19,7 @@ const TransactionEdit = ({
   me,
   history,
   match: { params },
+  location,
   getTransactionDetail,
   transactionDetail
 }) => {
@@ -49,12 +50,12 @@ const TransactionEdit = ({
             ...values
           },
           id: params.id,
-          success: resData => history.push(`/${URL_PREFIXES[me.role]}/financial-reports/transactions`)
+          success: resData => history.push(`/${URL_PREFIXES[me.role]}/financial-reports/transactions${location.search}`)
         },
         formActions
       )
     },
-    [updateTransaction, me, history, params.id]
+    [updateTransaction, me, history, params.id, location]
   )
 
   return (

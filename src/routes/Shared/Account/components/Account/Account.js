@@ -9,7 +9,7 @@ const Account = ({ match: { path } }) => {
   return (
     <Switch>
       <Route exact path={`${path}`} component={AccountList} />
-      <Route exact path={`${path}/:id/detail`} component={AccountEdit} />
+      <Route exact path={`${path}/:id/edit`} component={AccountEdit} />
       <Route exact path={`${path}/new`} component={AccountNew} />
       <Redirect to={`${path}`} />
     </Switch>

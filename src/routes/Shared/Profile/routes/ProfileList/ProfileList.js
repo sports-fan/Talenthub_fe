@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import * as R from 'ramda'
 import { withRouter } from 'react-router'
 import { show } from 'redux-modal'
-import { Link } from 'react-router-dom'
-import { Grid, Button } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { Formik } from 'formik'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -14,6 +13,7 @@ import withPaginationInfo from 'hocs/withPaginationInfo'
 import Widget from 'components/Widget'
 import Spinner from 'components/Spinner'
 import SearchForm from 'components/SearchForm'
+import TrackButton from 'components/TrackButton'
 import ProfileTable from '../../components/ProfileTable'
 import { URL_PREFIXES } from 'config/constants'
 import { meSelector } from 'store/modules/auth'
@@ -75,9 +75,9 @@ const ProfileList = ({
             disableWidgetMenu
             noBodyPadding
             WidgetButton={
-              <Button color="primary" component={Link} to={`/${URL_PREFIXES[me.role]}/profiles/new`}>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/profiles/new`}>
                 Add a Profile
-              </Button>
+              </TrackButton>
             }>
             <Formik initialValues={initialValues} component={SearchForm} onSubmit={handleSubmit} />
             <ProfileTable

@@ -1,5 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
+import { createStructuredSelector } from 'reselect'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import cn from 'classnames'
 import {
@@ -17,11 +20,14 @@ import PropTypes from 'prop-types'
 
 import { ROLES, PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS, URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import useStyles from './styles'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
+import { meSelector } from 'store/modules/auth'
 
 function ProjectTable({
+  me,
   data,
   role,
   onDelete,
@@ -46,9 +52,14 @@ function ProjectTable({
 
   const showProjectDetail = useCallback(
     id => () => {
-      history.push(`/${URL_PREFIXES[role]}/projects/${id}/detail`, location.pathname)
+      location.state
+        ? history.push(location.state, `${location.state}${location.search}`)
+        : history.push(
+            `/${URL_PREFIXES[me.role]}/projects/${id}/edit`,
+            `/${URL_PREFIXES[me.role]}/projects${location.search}`
+          )
     },
-    [history, location.pathname, role]
+    [history, location, me]
   )
 
   if (data) {
@@ -80,9 +91,12 @@ function ProjectTable({
               {!disableActions && (
                 <TableCell className={classes.action}>
                   <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                    <IconButton onClick={showProjectDetail(id)}>
+                    <TrackButton
+                      component={IconButton}
+                      trackType="push"
+                      to={`/${URL_PREFIXES[me.role]}/projects/${id}/edit`}>
                       <EditIcon color="primary" />
-                    </IconButton>
+                    </TrackButton>
                   </Tooltip>
                   <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                     <IconButton onClick={() => onDelete(id)}>
@@ -115,7 +129,9 @@ function ProjectTable({
   }
 }
 
-export default withRouter(ProjectTable)
+const selector = createStructuredSelector({
+  me: meSelector
+})
 
 ProjectTable.propTypes = {
   data: ListDataType,
@@ -129,3 +145,5 @@ ProjectTable.propTypes = {
 ProjectTable.defaultProps = {
   disableActions: false
 }
+
+export default compose(withRouter, connect(selector))(ProjectTable)

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import { Grid, Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -10,6 +10,7 @@ import { show } from 'redux-modal'
 import Widget from 'components/Widget'
 import ClientTable from '../../components/ClientTable'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import { getClients, deleteClientAndRefresh, clientsSelector, clientsLoadingSelector } from 'store/modules/client'
 import { meSelector } from 'store/modules/auth'
 import { URL_PREFIXES } from 'config/constants'
@@ -22,6 +23,8 @@ const ClientList = ({
   clients,
   isClientsLoading,
   me,
+  location,
+  history,
   show,
   pagination,
   onChangePage,
@@ -52,9 +55,9 @@ const ClientList = ({
             title="Clients"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to={`/${URL_PREFIXES[me.role]}/clients/new`}>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/clients/new`}>
                 Add a Client
-              </Button>
+              </TrackButton>
             }>
             <ClientTable
               data={clients}
@@ -92,4 +95,4 @@ ClientList.propTypes = {
   pagination: PropTypes.object
 }
 
-export default compose(withPaginationInfo, connect(selectors, actions))(ClientList)
+export default compose(withPaginationInfo, withRouter, connect(selectors, actions))(ClientList)

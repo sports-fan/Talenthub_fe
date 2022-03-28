@@ -8,7 +8,7 @@ import UserNew from '../../routes/UserNew'
 const User = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={UserList} />
-    <Route exact path={`${path}/:id/detail`} component={UserEdit} />
+    <Route exact path={`${path}/:id/edit`} component={UserEdit} />
     <Route exact path={`${path}/new`} component={UserNew} />
     <Redirect to={`${path}`} />
   </Switch>

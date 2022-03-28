@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { Field } from 'formik'
 import { withRouter } from 'react-router'
@@ -11,12 +11,13 @@ import { createStructuredSelector } from 'reselect'
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import FormSelect from 'components/FormSelect'
-import useStyles from './styles'
 import { URL_PREFIXES, FINANCIALREQUEST_TYPE_OPTIONS, FINANCIALREQUEST_TYPE } from 'config/constants'
 import { meSelector } from 'store/modules/auth'
 import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/paymentAccount'
 import { searchProjects, projectsSearchResultsSelector } from 'store/modules/project'
 import { ListDataType } from 'helpers/prop-types'
+import TrackButton from 'components/TrackButton'
+import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
   amount: Yup.number().required('This field is required!'),
@@ -39,8 +40,6 @@ const FinancialRequestDetailForm = ({
   getPaymentAccounts,
   paymentAccounts
 }) => {
-  const classes = useStyles()
-
   useEffect(() => {
     searchProjects({
       params: {
@@ -49,10 +48,6 @@ const FinancialRequestDetailForm = ({
     })
     getPaymentAccounts()
   }, [searchProjects, getPaymentAccounts, me])
-
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[role]}/financial-requests`)
-  }, [location, history, role])
 
   const projectList = useMemo(() => {
     if (projectsSearchResults) {
@@ -66,6 +61,7 @@ const FinancialRequestDetailForm = ({
   }, [projectsSearchResults])
 
   const isUpdateMode = useMemo(() => Boolean(params.id), [params.id])
+  const classes = useStyles()
 
   const paymentAccountOptions = useMemo(
     () =>
@@ -141,9 +137,13 @@ const FinancialRequestDetailForm = ({
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/financial-requests${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

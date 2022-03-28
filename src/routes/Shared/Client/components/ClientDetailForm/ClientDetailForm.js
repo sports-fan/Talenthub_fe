@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
-import { Field } from 'formik'
+import React, { useMemo, useEffect } from 'react'
 import { Button } from '@material-ui/core'
+import { Field } from 'formik'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
@@ -12,11 +12,12 @@ import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import FormSelect from 'components/FormSelect'
 import { CLIENT_TYPES, CLIENT_TYPE_OPTIONS, URL_PREFIXES, ROLES } from 'config/constants'
-import useStyles from './styles'
 import { meSelector } from 'store/modules/auth'
 import { usersSelector, getUsers } from 'store/modules/user'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
+import TrackButton from 'components/TrackButton'
+import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
   full_name: Yup.string().required('This field is required!'),
@@ -31,17 +32,11 @@ export const validationSchema = Yup.object().shape({
 const validateOwnerField = value => (!value ? 'This field is required!' : undefined)
 
 const ClientDetailForm = ({ handleSubmit, values, location, history, me, match: { params }, users, getUsers }) => {
-  const classes = useStyles()
-
   useEffect(() => {
     if (me.role !== ROLES.DEVELOPER) {
       getUsers(me)
     }
   }, [getUsers, me])
-
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[me.role]}/clients`)
-  }, [location, history, me.role])
 
   const userLists = useMemo(() => {
     if (users) {
@@ -54,6 +49,7 @@ const ClientDetailForm = ({ handleSubmit, values, location, history, me, match: 
     }
   }, [users])
 
+  const classes = useStyles()
   const isUpdateMode = Boolean(params.id)
   return (
     <form onSubmit={handleSubmit}>
@@ -79,9 +75,13 @@ const ClientDetailForm = ({ handleSubmit, values, location, history, me, match: 
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/clients${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

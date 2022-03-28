@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react'
-import { Field } from 'formik'
+import React, { useMemo } from 'react'
 import { Button } from '@material-ui/core'
+import { Field } from 'formik'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 
 import FormInput from 'components/FormInput'
+import TrackButton from 'components/TrackButton'
 import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
@@ -13,13 +14,8 @@ export const validationSchema = Yup.object().shape({
 })
 
 const TeamEditForm = ({ location, history, handleSubmit, match: { params } }) => {
-  const classes = useStyles()
-
   const isEdit = useMemo(() => params.id, [params])
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push('/admin/teams')
-  }, [location, history])
-
+  const classes = useStyles()
   return (
     <form onSubmit={handleSubmit}>
       <Field component={FormInput} htmlId="name" type="text" name="name" label="Team Name" />
@@ -27,9 +23,13 @@ const TeamEditForm = ({ location, history, handleSubmit, match: { params } }) =>
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isEdit ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `/admin/teams${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

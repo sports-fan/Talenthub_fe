@@ -1,15 +1,15 @@
 import React, { useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import PropTypes from 'prop-types'
-import { Grid, Button } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { show } from 'redux-modal'
 
 import { getTeams, teamsSelector, deleteTeamAndRefresh } from 'store/modules/team'
 
 import Widget from 'components/Widget'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import TeamMemberExpansion from '../../components/TeamMemberExpansion'
 import TeamUnassignedUsers from '../../components/TeamUnassignedUsers'
 
@@ -37,9 +37,9 @@ const TeamList = ({ getTeams, teams, show, deleteTeamAndRefresh }) => {
             title="Teams"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to="/admin/teams/new">
+              <TrackButton trackType="push" color="primary" to="/admin/teams/new">
                 Add a Team
-              </Button>
+              </TrackButton>
             }>
             {teams.map(team => (
               <TeamMemberExpansion

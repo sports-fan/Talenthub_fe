@@ -1,4 +1,7 @@
-import React, { useCallback } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
 import { withRouter } from 'react-router-dom'
 import {
@@ -19,8 +22,11 @@ import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
 import { getPlatformLabel } from 'helpers/utils'
 import useStyles from './styles'
+import { meSelector } from 'store/modules/auth'
+import TrackButton from 'components/TrackButton'
 
 function PaymentAccountTable({
+  me,
   data,
   role,
   onDelete,
@@ -32,13 +38,7 @@ function PaymentAccountTable({
 }) {
   const classes = useStyles()
   const columns = ['Payment Platform', 'Address', 'Display Name', 'Description']
-
-  const showPaymentAccountDetail = useCallback(
-    id => () => {
-      history.push(`/${URL_PREFIXES[role]}/payment-accounts/${id}/detail`, location.pathname)
-    },
-    [history, location.pathname, role]
-  )
+  // const ref = React.createRef();
 
   if (data) {
     const { results } = data
@@ -60,9 +60,12 @@ function PaymentAccountTable({
               <TableCell>{description}</TableCell>
               <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                  <IconButton onClick={showPaymentAccountDetail(id)}>
+                  <TrackButton
+                    component={IconButton}
+                    trackType="push"
+                    to={`/${URL_PREFIXES[me.role]}/payment-accounts/${id}/edit`}>
                     <EditIcon color="primary" />
-                  </IconButton>
+                  </TrackButton>
                 </Tooltip>
                 <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                   <IconButton onClick={() => onDelete(id)}>
@@ -92,7 +95,11 @@ function PaymentAccountTable({
   }
 }
 
-export default withRouter(PaymentAccountTable)
+const selector = createStructuredSelector({
+  me: meSelector
+})
+
+export default compose(withRouter, connect(selector))(PaymentAccountTable)
 
 PaymentAccountTable.propTypes = {
   data: ListDataType,

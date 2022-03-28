@@ -7,11 +7,12 @@ import { createStructuredSelector } from 'reselect'
 import { Formik } from 'formik'
 import * as R from 'ramda'
 import { show } from 'redux-modal'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import DateRangePickerForm, { validationSchema } from 'components/DateRangePickerForm'
 import Widget from 'components/Widget'
+import TrackButton from 'components/TrackButton'
 import TransactionTable from 'components/TransactionTable'
 import SimpleSelect from 'components/SimpleSelect'
 import Spinner from 'components/Spinner'
@@ -28,7 +29,7 @@ import { meSelector } from 'store/modules/auth'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
 import { parseQueryString, jsonToQueryString } from 'helpers/utils'
-import { periodOptions, FINANCIALREQUEST_TYPE_OPTIONS, FINANCIALREQUEST_TYPE } from 'config/constants'
+import { periodOptions, FINANCIALREQUEST_TYPE_OPTIONS, FINANCIALREQUEST_TYPE, URL_PREFIXES } from 'config/constants'
 
 const TransactionList = ({
   getTransactions,
@@ -328,14 +329,14 @@ const TransactionList = ({
                   </Grid>
                   <Grid item>
                     <Tooltip title="Add a New Transaction" placement="top">
-                      <Button
+                      <TrackButton
+                        trackType="push"
                         color="primary"
                         variant="outlined"
-                        component={Link}
-                        to={`${path}/new`}
-                        className={classes.download}>
+                        className={classes.download}
+                        to={`/${URL_PREFIXES[me.role]}/financial-reports/transactions/new`}>
                         Add a Transaction
-                      </Button>
+                      </TrackButton>
                     </Tooltip>
                   </Grid>
                 </Grid>

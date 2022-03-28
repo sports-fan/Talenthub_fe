@@ -9,7 +9,7 @@ import PlatformNew from '../../routes/PlatformNew'
 const Platform = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={PlatformList} />
-    <Route exact path={`${path}/:id/detail`} component={PlatformEdit} />
+    <Route exact path={`${path}/:id/edit`} component={PlatformEdit} />
     <Route exact path={`${path}/new`} component={PlatformNew} />
     <Redirect to={`${path}`} />
   </Switch>

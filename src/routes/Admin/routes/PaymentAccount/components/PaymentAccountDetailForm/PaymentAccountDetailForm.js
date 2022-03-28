@@ -1,18 +1,19 @@
-import React, { useCallback, useMemo } from 'react'
-import { Button } from '@material-ui/core'
+import React, { useMemo } from 'react'
+import Button from '@material-ui/core/Button'
 import { Field } from 'formik'
 import { withRouter } from 'react-router'
 import * as Yup from 'yup'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import useStyles from './styles'
 import { createStructuredSelector } from 'reselect'
 
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
-import useStyles from './styles'
 import { URL_PREFIXES, PAYMENT_PLATFORM_OPTIONS } from 'config/constants'
 import { meSelector } from 'store/modules/auth'
+import TrackButton from 'components/TrackButton'
 
 export const validationSchema = Yup.object().shape({
   platform: Yup.string().required('This field is required!'),
@@ -21,12 +22,8 @@ export const validationSchema = Yup.object().shape({
 })
 
 const PaymentAccountDetailForm = ({ handleSubmit, values, location, history, me: { role }, me, match: { params } }) => {
-  const classes = useStyles()
-  const handleGoBack = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[me.role]}/payment-accounts`)
-  }, [location, history, me])
-
   const isUpdateMode = useMemo(() => Boolean(params.id), [params.id])
+  const classes = useStyles()
   return (
     <form onSubmit={handleSubmit}>
       <Field
@@ -51,14 +48,17 @@ const PaymentAccountDetailForm = ({ handleSubmit, values, location, history, me:
           placeholder: 'Extra Information'
         }}
       />
-
       <div className={classes.formButtonWrapper}>
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleGoBack}>
-          Go Back
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/payment-accounts${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import { Grid, Button } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -23,17 +23,21 @@ import ApproveRequestModal from 'components/ApproveRequestModal'
 import { FINANCIALREQUEST_TYPE, ROLES, URL_PREFIXES } from 'config/constants'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
+import TrackButton from 'components/TrackButton'
 
 const AllFinancialRequest = ({
   getFinancialRequests,
   financialRequests,
   isFinancialRequestsLoading,
   me,
+  me: { role },
   cancelFinancialRequest,
   declineFinancialRequest,
   show,
   approveFinancialRequest,
   pagination,
+  location,
+  history,
   onChangePage,
   onChangeRowsPerPage
 }) => {
@@ -99,9 +103,9 @@ const AllFinancialRequest = ({
               disableWidgetMenu
               WidgetButton={
                 [ROLES.DEVELOPER, ROLES.TEAM_MANAGER].includes(me.role) ? (
-                  <Button color="primary" component={Link} to={`/${URL_PREFIXES[me.role]}/financial-requests/new`}>
-                    Add a Financial Request
-                  </Button>
+                  <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/financial-requests/new`}>
+                    Add a Financial request
+                  </TrackButton>
                 ) : (
                   undefined
                 )

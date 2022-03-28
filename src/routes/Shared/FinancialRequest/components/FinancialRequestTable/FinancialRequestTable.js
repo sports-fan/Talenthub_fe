@@ -33,6 +33,7 @@ import {
   URL_PREFIXES
 } from 'config/constants'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import { FormattedDate, FormattedNumber } from 'react-intl'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
@@ -53,13 +54,6 @@ function FinancialRequestTable({
 }) {
   const classes = useStyles()
   const columns = ['Time', 'Project', 'Sender', 'To', 'Amount', 'Payment account', 'Type', 'Status', 'Actions']
-
-  const showFinancialRequestEdit = useCallback(
-    id => () => {
-      history.push(`/${URL_PREFIXES[me.role]}/financial-requests/${id}/edit`, location.pathname)
-    },
-    [history, location.pathname, me.role]
-  )
 
   const showFinancialRequestDetail = useCallback(
     id => () => {
@@ -106,9 +100,12 @@ function FinancialRequestTable({
                   <>
                     {status === FINANCIALREQUEST_STATUS.PENDING ? (
                       <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                        <IconButton onClick={showFinancialRequestEdit(id)}>
+                        <TrackButton
+                          component={IconButton}
+                          trackType="push"
+                          to={`/${URL_PREFIXES[me.role]}/financial-requests/${id}/edit`}>
                           <EditIcon color="primary" />
-                        </IconButton>
+                        </TrackButton>
                       </Tooltip>
                     ) : null}
                     {[FINANCIALREQUEST_STATUS.PENDING, FINANCIALREQUEST_STATUS.DECLINED].includes(status) && (

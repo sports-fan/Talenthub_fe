@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import { Grid, Button } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -10,10 +10,12 @@ import { show } from 'redux-modal'
 import Widget from 'components/Widget'
 import ProjectsTable from '../../components/ProjectTable'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import { getProjects, deleteProjectAndRefresh, projectsSelector, projectsLoadingSelector } from 'store/modules/project'
 import { meSelector } from 'store/modules/auth'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
+import { URL_PREFIXES } from 'config/constants'
 
 const ProjectList = ({
   getProjects,
@@ -22,6 +24,8 @@ const ProjectList = ({
   isProjectsLoading,
   me,
   match: { path },
+  location,
+  history,
   show,
   pagination,
   onChangePage,
@@ -54,9 +58,9 @@ const ProjectList = ({
             title="Projects"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to={`${path}/new`}>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/projects/new`}>
                 Add a Project
-              </Button>
+              </TrackButton>
             }>
             <ProjectsTable
               data={projects}

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { Field } from 'formik'
 import { withRouter } from 'react-router'
@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect'
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import FormSelect from 'components/FormSelect'
-import useStyles from './styles'
 import {
   URL_PREFIXES,
   PROJECT_TYPE_OPTIONS,
@@ -26,6 +25,8 @@ import { usersSelector, getUsers } from 'store/modules/user'
 import { getClients, clientsSelector } from 'store/modules/client'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName, getPriceLabelFromProjectType } from 'helpers/utils'
+import TrackButton from 'components/TrackButton'
+import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
   title: Yup.string().required('This field is required!'),
@@ -62,8 +63,6 @@ const ProjectDetailForm = ({
   clients,
   getClients
 }) => {
-  const classes = useStyles()
-
   useEffect(() => {
     me.role !== ROLES.DEVELOPER && getUsers(me)
   }, [me, getUsers])
@@ -71,9 +70,6 @@ const ProjectDetailForm = ({
   useEffect(() => {
     getClients()
   }, [getClients])
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[role]}/projects`)
-  }, [location, history, role])
 
   const userList = useMemo(() => {
     if (users) {
@@ -98,6 +94,7 @@ const ProjectDetailForm = ({
   }, [clients])
 
   const isUpdateMode = useMemo(() => Boolean(params.id), [params.id])
+  const classes = useStyles()
 
   return (
     <form onSubmit={handleSubmit}>
@@ -165,9 +162,13 @@ const ProjectDetailForm = ({
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Go Back
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/projects${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

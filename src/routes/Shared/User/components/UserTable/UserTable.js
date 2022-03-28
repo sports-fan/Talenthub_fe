@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import {
   Table,
   TableRow,
@@ -11,15 +13,17 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 
 import useStyles from './styles'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
-import { ROLES } from 'config/constants'
+import { ROLES, URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
 import { ListDataType } from 'helpers/prop-types'
+import { meSelector } from 'store/modules/auth'
+import TrackButton from 'components/TrackButton'
 
 const role_patterns = [
   {
@@ -47,15 +51,19 @@ const role_patterns = [
 const columns = ['Full name', 'Email', 'Role', 'Actions']
 
 function UserTable({
+  me,
   data,
   role: myRole,
   handleDelete,
   match: { path },
+  location,
+  history,
   pagination,
   onChangePage,
   onChangeRowsPerPage
 }) {
   const classes = useStyles()
+
   if (data) {
     return (
       <Table className="mb-0">
@@ -79,9 +87,12 @@ function UserTable({
               {[ROLES.ADMIN, ROLES.TEAM_MANAGER].includes(myRole) && (
                 <TableCell className={classes.action}>
                   <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                    <IconButton component={Link} to={`${path}/${id}/detail`}>
+                    <TrackButton
+                      component={IconButton}
+                      trackType="push"
+                      to={`/${URL_PREFIXES[me.role]}/users/${id}/edit`}>
                       <EditIcon color="primary" />
-                    </IconButton>
+                    </TrackButton>
                   </Tooltip>
                   <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                     <IconButton onClick={() => handleDelete(id)}>
@@ -112,6 +123,10 @@ function UserTable({
   }
 }
 
+const selector = createStructuredSelector({
+  me: meSelector
+})
+
 UserTable.propTypes = {
   data: ListDataType,
   role: PropTypes.number.isRequired,
@@ -121,4 +136,4 @@ UserTable.propTypes = {
   onChangeRowsPerPage: PropTypes.func.isRequired
 }
 
-export default compose(withRouter)(UserTable)
+export default compose(withRouter, connect(selector))(UserTable)

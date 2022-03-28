@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { Button, FormLabel, Grid } from '@material-ui/core'
 import { Field, FieldArray } from 'formik'
 import { withRouter } from 'react-router'
@@ -18,6 +18,7 @@ import { ROLES } from 'config/constants'
 import { usersSelector, getUsers } from 'store/modules/user'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
+import TrackButton from 'components/TrackButton'
 
 export const validationSchema = Yup.object().shape({
   full_name: Yup.string().required('This field is required!'),
@@ -49,10 +50,6 @@ const PartnerDetailForm = ({
       getUsers(me)
     }
   }, [getUsers, me])
-
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[role]}/partners`)
-  }, [location, history, role])
 
   const userList = useMemo(() => {
     if (users) {
@@ -149,9 +146,13 @@ const PartnerDetailForm = ({
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/partners${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

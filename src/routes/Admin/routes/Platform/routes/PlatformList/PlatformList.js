@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import { Grid, Button } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -16,9 +16,11 @@ import {
   platformsSelector,
   platformsLoadingSelector
 } from 'store/modules/platform'
+import TrackButton from 'components/TrackButton'
 import { meSelector } from 'store/modules/auth'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
+import { URL_PREFIXES } from 'config/constants'
 
 const Platform = ({
   getPlatforms,
@@ -27,6 +29,8 @@ const Platform = ({
   isPlatformLoading,
   me,
   match: { path },
+  location,
+  history,
   show,
   pagination,
   onChangePage,
@@ -49,6 +53,7 @@ const Platform = ({
     },
     [me.role, deletePlatformAndRefresh]
   )
+
   if (isPlatformLoading) return <Spinner />
   else
     return (
@@ -58,9 +63,9 @@ const Platform = ({
             title="Platforms"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to={`${path}/new`}>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/platforms/new`}>
                 Add a Platform
-              </Button>
+              </TrackButton>
             }>
             <PlatformTable
               data={platforms}

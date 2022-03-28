@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import { Grid, Button } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -19,6 +19,8 @@ import {
 import { meSelector } from 'store/modules/auth'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
+import { URL_PREFIXES } from 'config/constants'
+import TrackButton from 'components/TrackButton'
 
 const PaymentAccountList = ({
   getPaymentAccounts,
@@ -26,6 +28,8 @@ const PaymentAccountList = ({
   paymentAccounts,
   isPaymentAccountsLoading,
   me,
+  location,
+  history,
   match: { path },
   show,
   pagination,
@@ -49,6 +53,7 @@ const PaymentAccountList = ({
     },
     [me.role, deletePaymentAccountAndRefresh]
   )
+
   if (isPaymentAccountsLoading) return <Spinner />
   else
     return (
@@ -58,9 +63,9 @@ const PaymentAccountList = ({
             title="Payment Accounts"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to={`${path}/new`}>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/payment-accounts/new`}>
                 Add a Payment Account
-              </Button>
+              </TrackButton>
             }>
             <PaymentAccountTable
               data={paymentAccounts}

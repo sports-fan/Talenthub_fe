@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
-import { Field } from 'formik'
+import React, { useEffect, useMemo } from 'react'
 import { Button } from '@material-ui/core'
+import { Field } from 'formik'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { withRouter } from 'react-router'
@@ -10,12 +10,13 @@ import * as Yup from 'yup'
 
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
-import useStyles from './styles'
 import { getTeams, teamsSelector } from 'store/modules/team'
 import { meSelector } from 'store/modules/auth/selectors'
 import Spinner from 'components/Spinner'
 import FormSelect from 'components/FormSelect'
 import { ROLE_OPTIONS, ROLES, URL_PREFIXES } from 'config/constants'
+import TrackButton from 'components/TrackButton'
+import useStyles from './styles'
 
 export const initialValues = {
   first_name: '',
@@ -43,8 +44,6 @@ export const validatePwds = values => {
 }
 
 const UserDetailForm = ({ match: { path }, location, history, handleSubmit, teams, getTeams, me }) => {
-  const classes = useStyles()
-
   useEffect(() => {
     if (me.role === ROLES.ADMIN) getTeams()
   }, [getTeams, me])
@@ -61,10 +60,7 @@ const UserDetailForm = ({ match: { path }, location, history, handleSubmit, team
   )
 
   const isEdit = useMemo(() => path.includes('detail'), [path])
-
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`${URL_PREFIXES[me.role]}/users`)
-  }, [location, history, me])
+  const classes = useStyles()
 
   if (me.role === ROLES.ADMIN && !teams) return <Spinner />
   else
@@ -102,9 +98,13 @@ const UserDetailForm = ({ match: { path }, location, history, handleSubmit, team
           <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
             {isEdit ? 'Update' : 'Create'}
           </Button>
-          <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-            Cancel
-          </Button>
+          <TrackButton
+            trackType="pop"
+            variant="contained"
+            color="secondary"
+            to={location.state ? location.state : `${URL_PREFIXES[me.role]}/users${location.search}`}>
+            Go back
+          </TrackButton>
         </div>
       </form>
     )

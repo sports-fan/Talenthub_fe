@@ -1,4 +1,7 @@
-import React, { useCallback } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
 import { withRouter } from 'react-router-dom'
 import {
@@ -17,19 +20,14 @@ import PropTypes from 'prop-types'
 
 import { URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import { ListDataType } from 'helpers/prop-types'
 import useStyles from './styles'
+import { meSelector } from 'store/modules/auth'
 
-function PlatformTable({ data, role, onDelete, history, location, pagination, onChangePage, onChangeRowsPerPage }) {
+function PlatformTable({ data, role, onDelete, me, history, location, pagination, onChangePage, onChangeRowsPerPage }) {
   const columns = ['Name', 'Actions']
   const classes = useStyles()
-
-  const showPlatformDetail = useCallback(
-    id => () => {
-      history.push(`/${URL_PREFIXES[role]}/platforms/${id}/detail`, location.pathname)
-    },
-    [history, location.pathname, role]
-  )
 
   if (data) {
     const { results } = data
@@ -50,9 +48,12 @@ function PlatformTable({ data, role, onDelete, history, location, pagination, on
               <TableCell>{name}</TableCell>
               <TableCell className={classes.actions}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                  <IconButton onClick={showPlatformDetail(id)}>
+                  <TrackButton
+                    component={IconButton}
+                    trackType="push"
+                    to={`/${URL_PREFIXES[me.role]}/platforms/${id}/edit`}>
                     <EditIcon color="primary" />
-                  </IconButton>
+                  </TrackButton>
                 </Tooltip>
                 <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                   <IconButton onClick={() => onDelete(id)}>
@@ -82,7 +83,11 @@ function PlatformTable({ data, role, onDelete, history, location, pagination, on
   }
 }
 
-export default withRouter(PlatformTable)
+const selector = createStructuredSelector({
+  me: meSelector
+})
+
+export default compose(withRouter, connect(selector))(PlatformTable)
 
 PlatformTable.propTypes = {
   data: ListDataType,

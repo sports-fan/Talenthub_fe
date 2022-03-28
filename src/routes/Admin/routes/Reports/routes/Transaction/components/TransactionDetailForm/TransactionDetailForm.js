@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import { Field } from 'formik'
 import { withRouter } from 'react-router'
@@ -10,7 +10,6 @@ import { createStructuredSelector } from 'reselect'
 
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
-import useStyles from './styles'
 import { URL_PREFIXES } from 'config/constants'
 import { getAsianFullName } from 'helpers/utils'
 import { meSelector } from 'store/modules/auth'
@@ -19,6 +18,8 @@ import { getProjects, projectsSelector } from 'store/modules/project'
 import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/paymentAccount'
 import FormDatePicker from 'components/FormDatePicker'
 import FormSelect from 'components/FormSelect'
+import TrackButton from 'components/TrackButton'
+import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
   owner: Yup.string().required('This field is required!'),
@@ -44,8 +45,6 @@ const TransactionDetailForm = ({
   getProjects,
   values
 }) => {
-  const classes = useStyles()
-
   useEffect(() => {
     getUsers(me)
     getPaymentAccounts()
@@ -58,12 +57,6 @@ const TransactionDetailForm = ({
       }
     })
   }, [getProjects, values.owner])
-
-  const handleGoBack = useCallback(() => {
-    location.state
-      ? history.push(location.state)
-      : history.push(`/${URL_PREFIXES[me.role]}/financial-reports/transactions`)
-  }, [location, history, me])
 
   const userOptions = useMemo(
     () =>
@@ -99,6 +92,8 @@ const TransactionDetailForm = ({
   )
 
   const isUpdateMode = useMemo(() => Boolean(params.id), [params.id])
+  const classes = useStyles()
+
   return (
     <form onSubmit={handleSubmit}>
       <Field
@@ -144,9 +139,17 @@ const TransactionDetailForm = ({
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleGoBack}>
-          Go Back
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={
+            location.state
+              ? location.state
+              : `${URL_PREFIXES[me.role]}/financial-reports/transactions${location.search}`
+          }>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

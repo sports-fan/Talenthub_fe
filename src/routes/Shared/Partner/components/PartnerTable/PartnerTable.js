@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import {
   Table,
   TableRow,
@@ -15,13 +18,26 @@ import {
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
-import { ROLES } from 'config/constants'
+import { ROLES, URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
 import useStyles from './styles'
+import { meSelector } from 'store/modules/auth'
 
-function PartnerTable({ data, role, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
+function PartnerTable({
+  data,
+  role,
+  handleDelete,
+  match: { path },
+  me,
+  location,
+  history,
+  pagination,
+  onChangePage,
+  onChangeRowsPerPage
+}) {
   const classes = useStyles()
   const columns = useMemo(
     () =>
@@ -30,6 +46,7 @@ function PartnerTable({ data, role, handleDelete, match: { path }, pagination, o
         : ['Full Name', 'Email', 'Address', 'Date of Birth', 'Phone Number', 'Contact Method', 'Owner', 'Actions'],
     [role]
   )
+
   if (data) {
     return (
       <Table className="mb-0">
@@ -58,9 +75,12 @@ function PartnerTable({ data, role, handleDelete, match: { path }, pagination, o
               {role === ROLES.DEVELOPER ? null : <TableCell>{getAsianFullName(owner)}</TableCell>}
               <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                  <IconButton component={Link} to={`${path}/${id}/detail`}>
+                  <TrackButton
+                    component={IconButton}
+                    trackType="push"
+                    to={`/${URL_PREFIXES[me.role]}/partners/${id}/edit`}>
                     <EditIcon color="primary" />
-                  </IconButton>
+                  </TrackButton>
                 </Tooltip>
                 <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                   <IconButton onClick={() => handleDelete(id)}>
@@ -90,7 +110,9 @@ function PartnerTable({ data, role, handleDelete, match: { path }, pagination, o
   }
 }
 
-export default withRouter(PartnerTable)
+const selector = createStructuredSelector({
+  me: meSelector
+})
 
 PartnerTable.propTypes = {
   data: ListDataType,
@@ -98,3 +120,5 @@ PartnerTable.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 }
+
+export default compose(withRouter, connect(selector))(PartnerTable)

@@ -8,7 +8,7 @@ import PartnerNew from '../../routes/PartnerNew'
 const Partner = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={PartnerList} />
-    <Route exact path={`${path}/:id/detail`} component={PartnerEdit} />
+    <Route exact path={`${path}/:id/edit`} component={PartnerEdit} />
     <Route exact path={`${path}/new`} component={PartnerNew} />
     <Redirect to={`${path}`} />
   </Switch>

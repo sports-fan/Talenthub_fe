@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback } from 'react'
-import { Button, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { show } from 'redux-modal'
 import { compose } from 'redux'
@@ -12,7 +12,8 @@ import { getUsers, usersSelector, deleteUserAndRefresh } from 'store/modules/use
 import { meSelector } from 'store/modules/auth'
 import UserTable from '../../components/UserTable'
 import Widget from 'components/Widget'
-import { ROLES } from 'config/constants'
+import TrackButton from 'components/TrackButton'
+import { ROLES, URL_PREFIXES } from 'config/constants'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
 
@@ -26,6 +27,8 @@ const UserList = ({
   getUsers,
   users,
   me,
+  location,
+  history,
   deleteUserAndRefresh,
   show,
   pagination,
@@ -63,9 +66,9 @@ const UserList = ({
             disableWidgetMenu
             disableWidgetButton={me.role !== ROLES.ADMIN}
             WidgetButton={
-              <Button color="primary" component={Link} to="/admin/users/new">
-                Add an User
-              </Button>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/users/new`}>
+                Add a User
+              </TrackButton>
             }>
             <UserTable
               data={users}
@@ -104,4 +107,4 @@ UserList.propTypes = {
   onChangeRowsPerPage: PropTypes.func.isRequired
 }
 
-export default compose(withPaginationInfo, connect(selectors, actions))(UserList)
+export default compose(withPaginationInfo, withRouter, connect(selectors, actions))(UserList)

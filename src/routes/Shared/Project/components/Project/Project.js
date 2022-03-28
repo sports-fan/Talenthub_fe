@@ -8,7 +8,7 @@ import ProjectNew from '../../routes/ProjectNew'
 const Project = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={ProjectList} />
-    <Route exact path={`${path}/:id/detail`} component={ProjectEdit} />
+    <Route exact path={`${path}/:id/edit`} component={ProjectEdit} />
     <Route exact path={`${path}/new`} component={ProjectNew} />
     <Redirect to={`${path}`} />
   </Switch>

@@ -27,6 +27,7 @@ import { getUsers, usersSelector } from 'store/modules/user'
 import { getProjects, projectsSelector } from 'store/modules/project'
 import { createStructuredSelector } from 'reselect'
 import { truncateText } from 'helpers/utils'
+import TrackButton from 'components/TrackButton'
 
 function TransactionTable({
   data,
@@ -54,19 +55,11 @@ function TransactionTable({
     'Payment Account',
     'Description'
   ]
-  const role = me?.role
 
   useEffect(() => {
     getUsers()
     getProjects()
   }, [getUsers, getProjects])
-
-  const showTransactionEdit = useCallback(
-    id => () => {
-      history.push(`/${URL_PREFIXES[role]}/financial-reports/transactions/${id}/edit`, location.pathname)
-    },
-    [history, location.pathname, role]
-  )
 
   const showTransactionDetail = useCallback(
     id => () => {
@@ -132,9 +125,12 @@ function TransactionTable({
                     </IconButton>
                   </Tooltip>
                   <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                    <IconButton onClick={showTransactionEdit(id)}>
+                    <TrackButton
+                      component={IconButton}
+                      trackType="push"
+                      to={`/${URL_PREFIXES[me.role]}/financial-reports/transactions/${id}/edit`}>
                       <EditIcon color="primary" />
-                    </IconButton>
+                    </TrackButton>
                   </Tooltip>
                   <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                     <IconButton onClick={() => onDelete(id)}>

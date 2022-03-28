@@ -2,8 +2,8 @@ import React, { useEffect, useCallback } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { Grid, Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
 import { show } from 'redux-modal'
 import PropTypes from 'prop-types'
 
@@ -12,6 +12,7 @@ import { meSelector } from 'store/modules/auth'
 import { URL_PREFIXES } from 'config/constants'
 import PartnerTable from '../../components/PartnerTable'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
 import Widget from 'components/Widget'
 import withPaginationInfo from 'hocs/withPaginationInfo'
 import { ListDataType } from 'helpers/prop-types'
@@ -23,6 +24,8 @@ const PartnerList = ({
   isPartnersLoading,
   me,
   show,
+  location,
+  history,
   pagination,
   onChangePage,
   onChangeRowsPerPage
@@ -54,9 +57,9 @@ const PartnerList = ({
             title="Partners"
             disableWidgetMenu
             WidgetButton={
-              <Button color="primary" component={Link} to={`/${URL_PREFIXES[me.role]}/partners/new`}>
-                Add Partner
-              </Button>
+              <TrackButton trackType="push" color="primary" to={`/${URL_PREFIXES[me.role]}/partners/new`}>
+                Add a Partner
+              </TrackButton>
             }>
             <PartnerTable
               data={partners}
@@ -94,4 +97,4 @@ PartnerList.propTypes = {
   pagination: PropTypes.object
 }
 
-export default compose(withPaginationInfo, connect(selectors, actions))(PartnerList)
+export default compose(withPaginationInfo, withRouter, connect(selectors, actions))(PartnerList)

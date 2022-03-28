@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
-import { Field } from 'formik'
+import React, { useEffect, useMemo } from 'react'
 import { Button } from '@material-ui/core'
+import { Field } from 'formik'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import * as Yup from 'yup'
@@ -11,13 +11,14 @@ import { compose } from 'redux'
 import FormInput from 'components/FormInput'
 import FormEditableSelect from 'components/FormEditableSelect'
 import FormPasswordInput from 'components/FormPasswordInput'
-import useStyles from './styles'
+import TrackButton from 'components/TrackButton'
 import { getProfiles, profileSelector } from 'store/modules/profile'
 import { getPlatforms, platformsSelector } from 'store/modules/platform'
 import { meSelector } from 'store/modules/auth'
 import { URL_PREFIXES } from 'config/constants'
 import { ListDataType } from 'helpers/prop-types'
 import { getFullName } from 'helpers/utils'
+import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
   profile: Yup.string().required('This field is required!'),
@@ -47,12 +48,8 @@ const AccountDetailForm = ({
     getPlatforms()
   }, [getPlatforms])
 
-  const classes = useStyles()
   const isUpdateMode = Boolean(params.id)
-
-  const handleCancel = useCallback(() => {
-    location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[me.role]}/accounts`)
-  }, [location, history, me.role])
+  const classes = useStyles()
 
   const profileOptions = useMemo(
     () =>
@@ -116,9 +113,13 @@ const AccountDetailForm = ({
         <Button type="submit" variant="contained" color="primary" className={classes.formButton}>
           {isUpdateMode ? 'Update' : 'Create'}
         </Button>
-        <Button variant="contained" color="secondary" className={classes.formButton} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <TrackButton
+          trackType="pop"
+          variant="contained"
+          color="secondary"
+          to={location.state ? location.state : `${URL_PREFIXES[me.role]}/accounts${location.search}`}>
+          Go back
+        </TrackButton>
       </div>
     </form>
   )

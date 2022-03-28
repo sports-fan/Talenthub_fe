@@ -9,7 +9,7 @@ import PaymentAccoutNew from '../../routes/PaymentAccountNew'
 const Project = ({ match: { path } }) => (
   <Switch>
     <Route exact path={`${path}`} component={PaymentAccountList} />
-    <Route exact path={`${path}/:id/detail`} component={PaymentAccountEdit} />
+    <Route exact path={`${path}/:id/edit`} component={PaymentAccountEdit} />
     <Route exact path={`${path}/new`} component={PaymentAccoutNew} />
     <Redirect to={`${path}`} />
   </Switch>

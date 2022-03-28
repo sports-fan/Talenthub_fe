@@ -11,20 +11,36 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { createStructuredSelector } from 'reselect'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import useStyles from './styles'
 import { Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons'
-import { profile_type_patterns, gender_patterns } from 'config/constants'
+import { profile_type_patterns, gender_patterns, URL_PREFIXES } from 'config/constants'
 import Spinner from 'components/Spinner'
+import TrackButton from 'components/TrackButton'
+import { meSelector } from 'store/modules/auth'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
 
 const columns = ['Owner', 'Full Name', 'Type', 'Address', 'Country', 'Date of Birth', 'Gender', 'Actions']
 
-function ProfileTable({ data, handleDelete, match: { path }, pagination, onChangePage, onChangeRowsPerPage }) {
+function ProfileTable({
+  data,
+  handleDelete,
+  match: { path },
+  me,
+  location,
+  history,
+  pagination,
+  onChangePage,
+  onChangeRowsPerPage
+}) {
   const classes = useStyles()
+
   if (data) {
     return (
       <Table className="mb-0">
@@ -54,9 +70,12 @@ function ProfileTable({ data, handleDelete, match: { path }, pagination, onChang
               <TableCell>{gender_patterns[gender]}</TableCell>
               <TableCell className={classes.action}>
                 <Tooltip key={`${id}Edit`} title="Edit" placement="top">
-                  <IconButton component={Link} to={`${path}/${id}/detail`}>
+                  <TrackButton
+                    component={IconButton}
+                    trackType="push"
+                    to={`/${URL_PREFIXES[me.role]}/profiles/${id}/edit`}>
                     <EditIcon color="primary" />
-                  </IconButton>
+                  </TrackButton>
                 </Tooltip>
                 <Tooltip key={`${id}Delete`} title="Delete" placement="top">
                   <IconButton onClick={() => handleDelete(id)}>
@@ -86,10 +105,14 @@ function ProfileTable({ data, handleDelete, match: { path }, pagination, onChang
   }
 }
 
+const selector = createStructuredSelector({
+  me: meSelector
+})
+
 ProfileTable.propTypes = {
   data: ListDataType,
   handleDelete: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 }
 
-export default withRouter(ProfileTable)
+export default compose(withRouter, connect(selector))(ProfileTable)
