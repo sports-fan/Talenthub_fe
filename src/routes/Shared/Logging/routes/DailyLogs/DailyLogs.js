@@ -19,13 +19,14 @@ const DailyLogs = ({ getDailyLogs, dailyLogs, me, pagination, location, history,
   const selectedDate = queryObj.date || format(new Date(), 'yyyy-MM-dd')
 
   useEffect(() => {
-    const { owner } = queryObj
+    const { owner, team } = queryObj
     getDailyLogs({
       role: me.role,
       date: selectedDate,
       params: {
         pagination,
-        owner
+        owner,
+        team
       }
     })
   }, [getDailyLogs, me.role, selectedDate, pagination, queryObj])

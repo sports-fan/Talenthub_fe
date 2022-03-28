@@ -19,14 +19,15 @@ const WeeklyLogs = ({ getWeeklyLogs, weeklyLogs, me, pagination, location, histo
   const selectedWeek = parseInt(queryObj.week) || parseInt(format(new Date(), 'ww'))
 
   useEffect(() => {
-    const { owner } = queryObj
+    const { owner, team } = queryObj
     getWeeklyLogs({
       role: me.role,
       year: selectedYear,
       week: selectedWeek - 1,
       params: {
         pagination,
-        owner
+        owner,
+        team
       }
     })
   }, [getWeeklyLogs, me.role, selectedYear, selectedWeek, pagination, queryObj])
