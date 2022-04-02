@@ -34,7 +34,7 @@ import {
 } from 'config/constants'
 import Spinner from 'components/Spinner'
 import TrackButton from 'components/TrackButton'
-import { FormattedDate, FormattedNumber } from 'react-intl'
+import { FormattedNumber } from 'react-intl'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
 
@@ -53,7 +53,7 @@ function FinancialRequestTable({
   show
 }) {
   const classes = useStyles()
-  const columns = ['Time', 'Project', 'Sender', 'To', 'Amount', 'Payment account', 'Type', 'Status', 'Actions']
+  const columns = ['Date', 'Project', 'Sender', 'To', 'Amount', 'Payment account', 'Type', 'Status', 'Actions']
 
   const showFinancialRequestDetail = useCallback(
     id => () => {
@@ -78,9 +78,7 @@ function FinancialRequestTable({
         <TableBody>
           {results.map(({ id, type, status, amount, address, requested_at, requester, project, payment_account }) => (
             <TableRow key={id} hover>
-              <TableCell>
-                <FormattedDate value={requested_at} />
-              </TableCell>
+              <TableCell>{requested_at}</TableCell>
               <TableCell>{type !== FINANCIALREQUEST_TYPE.SENDPAYMENT ? project.title : null}</TableCell>
               <TableCell>{getAsianFullName(requester)}</TableCell>
               <TableCell>{address}</TableCell>

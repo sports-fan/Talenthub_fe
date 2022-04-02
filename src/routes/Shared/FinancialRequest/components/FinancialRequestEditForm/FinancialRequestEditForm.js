@@ -17,6 +17,7 @@ import { getPaymentAccounts, paymentAccountsSelector } from 'store/modules/payme
 import { searchProjects, projectsSearchResultsSelector } from 'store/modules/project'
 import { ListDataType } from 'helpers/prop-types'
 import TrackButton from 'components/TrackButton'
+import FormDatePicker from 'components/FormDatePicker'
 import useStyles from './styles'
 
 export const validationSchema = Yup.object().shape({
@@ -119,6 +120,14 @@ const FinancialRequestDetailForm = ({
         name="payment_account"
         label="My Payment Account"
         options={paymentAccountOptions}
+      />
+      <Field
+        component={FormDatePicker}
+        variant="outlined"
+        inputVariant="outlined"
+        name="requested_at"
+        label="Requested at"
+        className={classes.datapicker}
       />
       <Field
         component={FormInput}

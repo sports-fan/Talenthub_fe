@@ -21,5 +21,8 @@ export default makeStyles(theme => ({
   },
   participantsRemove: {
     marginTop: theme.spacing(1)
+  },
+  datapicker: {
+    width: '100%'
   }
 }))
