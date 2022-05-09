@@ -42,8 +42,10 @@ const LoggingLayout = ({
   )
 
   useEffect(() => {
-    getTeams()
-  }, [getTeams])
+    if (me.role === ROLES.ADMIN) {
+      getTeams()
+    }
+  }, [getTeams, me.role])
 
   const teamOptions = useMemo(
     () => [
@@ -82,14 +84,16 @@ const LoggingLayout = ({
       disableWidgetButton={me.role === ROLES.DEVELOPER}
       WidgetButton={
         <Grid container className={classes.grid} spacing={2} alignItems="center" justifyContent="flex-end">
-          <Grid item>
-            <SimpleSelect
-              label="Team"
-              value={queryObj.team || 'all'}
-              options={teamOptions}
-              onChange={handleTeamChange}
-            />
-          </Grid>
+          {me.role === ROLES.ADMIN && (
+            <Grid item>
+              <SimpleSelect
+                label="Team"
+                value={queryObj.team || 'all'}
+                options={teamOptions}
+                onChange={handleTeamChange}
+              />
+            </Grid>
+          )}
           <Grid item>
             <PeriodButtonGroup selectedPeriod={interval} me={me} loggingOrMyLogs="logging" />
           </Grid>
