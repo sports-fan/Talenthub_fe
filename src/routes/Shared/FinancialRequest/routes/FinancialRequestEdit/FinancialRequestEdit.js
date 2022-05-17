@@ -19,7 +19,7 @@ import {
 import Spinner from 'components/Spinner'
 import { meSelector } from 'store/modules/auth'
 import { ROLES, URL_PREFIXES } from 'config/constants'
-import { serialize } from 'helpers/utils'
+import { serializeFinancialRequest } from 'helpers/utils'
 
 const FinancialRequestEdit = ({
   getFinancialRequestDetail,
@@ -57,7 +57,7 @@ const FinancialRequestEdit = ({
       return formSubmit(
         updateFinancialRequestDetail,
         {
-          data: serialize(values),
+          data: serializeFinancialRequest(values),
           id: params.id,
           success: () => history.push(`/${URL_PREFIXES[me.role]}/financial-requests`)
         },

@@ -203,11 +203,12 @@ export const getPriceLabelFromProjectType = type => {
   else return 'Hourly Rate'
 }
 
-export const serialize = values => ({
+export const serializeFinancialRequest = values => ({
   address: values.address || '',
   amount: values.amount || '',
   description: values.description || '',
   project: values.project || '',
   requested_at: values.requested_at || null,
-  type: values.type || ''
+  type: values.type || '',
+  payment_account: values.payment_account || null,
 })

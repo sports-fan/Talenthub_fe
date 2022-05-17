@@ -13,7 +13,7 @@ import { formSubmit } from 'helpers/form'
 import { meSelector } from 'store/modules/auth'
 import { createFinancialRequest } from 'store/modules/financialRequest'
 import { FINANCIALREQUEST_TYPE, URL_PREFIXES, PAYMENT_PLATFORM_TYPE } from 'config/constants'
-import { serialize } from 'helpers/utils'
+import { serializeFinancialRequest } from 'helpers/utils'
 
 const initialValues = {
   type: FINANCIALREQUEST_TYPE.SENDINVOICE,
@@ -34,7 +34,7 @@ const FinancialRequestNew = ({ createFinancialRequest, history, me: { role } }) 
       return formSubmit(
         createFinancialRequest,
         {
-          data: serialize(values),
+          data: serializeFinancialRequest(values),
           success: () => history.push(`/${URL_PREFIXES[role]}/financial-requests`)
         },
         formActions

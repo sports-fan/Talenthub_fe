@@ -20,6 +20,7 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core'
+import { FormattedDate, FormattedNumber } from 'react-intl'
 import { show } from 'redux-modal'
 import PropTypes from 'prop-types'
 
@@ -34,7 +35,6 @@ import {
 } from 'config/constants'
 import Spinner from 'components/Spinner'
 import TrackButton from 'components/TrackButton'
-import { FormattedNumber } from 'react-intl'
 import { ListDataType } from 'helpers/prop-types'
 import { getAsianFullName } from 'helpers/utils'
 
@@ -78,7 +78,7 @@ function FinancialRequestTable({
         <TableBody>
           {results.map(({ id, type, status, amount, address, requested_at, requester, project, payment_account }) => (
             <TableRow key={id} hover>
-              <TableCell>{requested_at}</TableCell>
+              <TableCell><FormattedDate value={requested_at} /></TableCell>
               <TableCell>{type !== FINANCIALREQUEST_TYPE.SENDPAYMENT ? project.title : null}</TableCell>
               <TableCell>{getAsianFullName(requester)}</TableCell>
               <TableCell>{address}</TableCell>
