@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { withRouter } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -11,16 +11,11 @@ import LogDetail from 'routes/Shared/Logging/components/LogDetail'
 import LogList from 'routes/Shared/Logging/components/LogList'
 import Spinner from 'components/Spinner'
 import useStyles from './styles'
-import {
-  weeklyLogDetailSelector,
-  weeklyLogStatusLoadingSelector,
-  dailyLogsSelector,
-  getDailyLogs
-} from 'store/modules/logging'
+import { weeklyLogDetailSelector, weeklyLogStatusLoadingSelector, dailyLogsSelector } from 'store/modules/logging'
 import { meSelector } from 'store/modules/auth'
 import { URL_PREFIXES } from 'config/constants'
 
-const RetrieveWeeklyLog = ({
+const WeeklyPlusDaily = ({
   weeklyLog,
   weeklyLogIsLoading,
   me,
@@ -28,11 +23,10 @@ const RetrieveWeeklyLog = ({
   history,
   match,
   interval,
-  developerDailyLogs,
-  getDailyLogs
+  developerDailyLogs
 }) => {
   const {
-    params: { userId, week, year }
+    params: { week, year }
   } = match
 
   const classes = useStyles()
@@ -54,16 +48,6 @@ const RetrieveWeeklyLog = ({
   const developerDailyLogsInThisWeek = developerDailyLogs
     ? getDeveloperDailyLogsInThisWeek(developerDailyLogs.results)
     : []
-
-  useEffect(() => {
-    userId &&
-      getDailyLogs({
-        role: me.role,
-        params: {
-          owner: userId
-        }
-      })
-  }, [getDailyLogs, me.role, userId])
 
   const handleGoBack = useCallback(() => {
     location.state ? history.push(location.state) : history.push(`/${URL_PREFIXES[me.role]}/logging/weekly/`)
@@ -89,9 +73,7 @@ const RetrieveWeeklyLog = ({
   }
 }
 
-const actions = {
-  getDailyLogs
-}
+const actions = {}
 
 const selectors = createStructuredSelector({
   weeklyLog: weeklyLogDetailSelector,
@@ -100,13 +82,12 @@ const selectors = createStructuredSelector({
   developerDailyLogs: dailyLogsSelector
 })
 
-RetrieveWeeklyLog.propTypes = {
+WeeklyPlusDaily.propTypes = {
   weeklyLog: PropTypes.object,
   weeklyLogIsLoading: PropTypes.bool.isRequired,
   me: PropTypes.object.isRequired,
-  getDailyLogs: PropTypes.func.isRequired,
   developerDailyLogs: PropTypes.object,
   interval: PropTypes.string.isRequired
 }
 
-export default connect(selectors, actions)(withRouter(RetrieveWeeklyLog))
+export default connect(selectors, actions)(withRouter(WeeklyPlusDaily))

@@ -3,11 +3,11 @@ import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import WeeklyPlusDaily from '../../components/WeeklyPlusDaily/WeeklyPlusDaily'
-import { weeklyLogDetailSelector, getWeeklyLogDetail } from 'store/modules/logging'
+import { weeklyLogDetailSelector, getWeeklyLogDetail, getDailyLogs } from 'store/modules/logging'
 import { meSelector } from 'store/modules/auth'
+import WeeklyPlusDaily from '../../components/WeeklyPlusDaily'
 
-const WeeklyLogDetail = ({ getWeeklyLogDetail, me, match, interval }) => {
+const WeeklyLogDetail = ({ getWeeklyLogDetail, me, match, interval, weeklyLogDetail, getDailyLogs }) => {
   const {
     params: { id }
   } = match
@@ -18,11 +18,23 @@ const WeeklyLogDetail = ({ getWeeklyLogDetail, me, match, interval }) => {
     })
   }, [getWeeklyLogDetail, me.role, id])
 
+  const userId = weeklyLogDetail?.owner.id
+
+  useEffect(() => {
+    getDailyLogs({
+      role: me.role,
+      params: {
+        owner: userId
+      }
+    })
+  }, [getDailyLogs, me.role, userId])
+
   return <WeeklyPlusDaily interval={interval} />
 }
 
 const actions = {
-  getWeeklyLogDetail
+  getWeeklyLogDetail,
+  getDailyLogs
 }
 
 const selectors = createStructuredSelector({

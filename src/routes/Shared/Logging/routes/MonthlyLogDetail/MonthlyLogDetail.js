@@ -3,14 +3,15 @@ import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import MonthlyPlusWeekly from '../../components/MonthlyPlusWeekly/MonthlyPlusWeekly'
-import { monthlyLogDetailSelector, getMonthlyLogDetail } from 'store/modules/logging'
+import MonthlyPlusWeekly from '../../components/MonthlyPlusWeekly'
+import { monthlyLogDetailSelector, getMonthlyLogDetail, getWeeklyLogs } from 'store/modules/logging'
 import { meSelector } from 'store/modules/auth'
 
-const MonthlyLogDetail = ({ getMonthlyLogDetail, me, match, interval }) => {
+const MonthlyLogDetail = ({ getMonthlyLogDetail, me, match, interval, monthlyLogDetail, getWeeklyLogs }) => {
   const {
     params: { id }
   } = match
+
   useEffect(() => {
     getMonthlyLogDetail({
       id: id,
@@ -18,11 +19,23 @@ const MonthlyLogDetail = ({ getMonthlyLogDetail, me, match, interval }) => {
     })
   }, [getMonthlyLogDetail, me.role, id])
 
+  const userId = monthlyLogDetail?.owner.id
+
+  useEffect(() => {
+    getWeeklyLogs({
+      role: me.role,
+      params: {
+        owner: userId
+      }
+    })
+  }, [getWeeklyLogs, me.role, userId])
+
   return <MonthlyPlusWeekly interval={interval} />
 }
 
 const actions = {
-  getMonthlyLogDetail
+  getMonthlyLogDetail,
+  getWeeklyLogs
 }
 
 const selectors = createStructuredSelector({

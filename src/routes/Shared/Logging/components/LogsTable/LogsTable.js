@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Table, TableRow, TableHead, TableBody, TableCell, Button } from '@material-ui/core'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 
@@ -43,12 +43,7 @@ function LogsTable({ data, history, location, match: { path }, role, interval })
                 <pre className={classes.text}>{achievements}</pre>
               </TableCell>
               <TableCell className={classes.item}>
-                <Button
-                  component={Link}
-                  to={`${path}/${id}`}
-                  onClick={handleRowClick(id)}
-                  variant="text"
-                  color="primary">
+                <Button onClick={handleRowClick(id)} variant="text" color="primary">
                   View
                 </Button>
               </TableCell>
